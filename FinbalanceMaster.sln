@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AA14E979-8DAD-476A-8651-80A61981E5FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FbIdentity", "FbIdentity", "{5CB92793-E7B6-4CA6-B4B2-D3ACC1D48C4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fb.Identity.Api", "src\FbIdentity\Fb.Identity.Api\Fb.Identity.Api.csproj", "{556A6BD5-91B4-4B9C-AD6E-A6081B6879AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MutualFund", "MutualFund", "{21030DD4-41B9-4CD6-AA5A-396144F52FAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6B066E9A-0390-45F7-B28B-8C8AB12E54EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MutualFund.Api", "src\Services\MutualFund\MutualFund.Api\MutualFund.Api.csproj", "{43C90704-3916-4E60-86FC-254334718CCF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{556A6BD5-91B4-4B9C-AD6E-A6081B6879AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{556A6BD5-91B4-4B9C-AD6E-A6081B6879AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{556A6BD5-91B4-4B9C-AD6E-A6081B6879AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{556A6BD5-91B4-4B9C-AD6E-A6081B6879AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C90704-3916-4E60-86FC-254334718CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C90704-3916-4E60-86FC-254334718CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C90704-3916-4E60-86FC-254334718CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C90704-3916-4E60-86FC-254334718CCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5CB92793-E7B6-4CA6-B4B2-D3ACC1D48C4C} = {AA14E979-8DAD-476A-8651-80A61981E5FA}
+		{556A6BD5-91B4-4B9C-AD6E-A6081B6879AB} = {5CB92793-E7B6-4CA6-B4B2-D3ACC1D48C4C}
+		{21030DD4-41B9-4CD6-AA5A-396144F52FAC} = {6B066E9A-0390-45F7-B28B-8C8AB12E54EC}
+		{6B066E9A-0390-45F7-B28B-8C8AB12E54EC} = {AA14E979-8DAD-476A-8651-80A61981E5FA}
+		{43C90704-3916-4E60-86FC-254334718CCF} = {21030DD4-41B9-4CD6-AA5A-396144F52FAC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB30C08D-7CF5-4974-A5ED-F0CA188352FD}
+	EndGlobalSection
+EndGlobal
