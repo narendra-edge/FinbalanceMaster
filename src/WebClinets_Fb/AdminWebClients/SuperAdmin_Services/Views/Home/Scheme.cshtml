@@ -1,0 +1,24 @@
+﻿@model List<FbSuperadmin.Models.Schemedata>
+    
+
+@{
+    ViewBag.Title = "Scheme";
+    Layout = "_Layout";
+
+ }
+
+ <h2>Scheme</h2>
+
+ <table>
+     @foreach (var item in Model)
+         {
+             <tr>
+                 <td>@item.SchemeId</td>
+                 <td>@item.SchemeName</td>
+
+             </tr>
+
+         }
+
+
+ </table>

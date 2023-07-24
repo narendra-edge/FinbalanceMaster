@@ -1,0 +1,27 @@
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+
+namespace Masters.Api.HealthChecks
+{
+    public class RemoteHealthCheck : IHealthCheck
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public RemoteHealthCheck(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+                                                      CancellationToken cancellationToken = new CancellationToken())
+        {
+            using (var httpClient = _httpClientFactory.CreateClient())
+            {
+                var response = await httpClient.GetAsync("https://api.ipify.org");
+                if (response.IsSuccessStatusCode)  
+                {
+                    return HealthCheckResult.Healthy($"Remote Endpoint is Healthy.");
+                }
+                return HealthCheckResult.Unhealthy($"Remote Endpoint is Unhealthy");
+            }
+        }
+    }
+}
