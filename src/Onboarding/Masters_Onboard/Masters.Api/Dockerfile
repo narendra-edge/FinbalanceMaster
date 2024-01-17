@@ -1,8 +1,5 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
-
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -10,16 +7,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/Services/CatelogServices/FixedIncomeInstrument/FixedIncomeInstrument.Api/FixedIncomeInstrument.Api.csproj", "src/Services/CatelogServices/FixedIncomeInstrument/FixedIncomeInstrument.Api/"]
-RUN dotnet restore "src/Services/CatelogServices/FixedIncomeInstrument/FixedIncomeInstrument.Api/FixedIncomeInstrument.Api.csproj"
+COPY ["src/Onboarding/Masters_Onboard/Masters.Api/Masters.Api.csproj", "src/Onboarding/Masters_Onboard/Masters.Api/"]
+COPY ["src/Onboarding/Masters_Onboard/Masters.Core/Masters.Core.csproj", "src/Onboarding/Masters_Onboard/Masters.Core/"]
+COPY ["src/Onboarding/Masters_Onboard/Masters.Infrastructure/Masters.Infrastructure.csproj", "src/Onboarding/Masters_Onboard/Masters.Infrastructure/"]
+RUN dotnet restore "src/Onboarding/Masters_Onboard/Masters.Api/Masters.Api.csproj"
 COPY . .
-WORKDIR "/src/src/Services/CatelogServices/FixedIncomeInstrument/FixedIncomeInstrument.Api"
-RUN dotnet build "FixedIncomeInstrument.Api.csproj" -c Release -o /app/build
+WORKDIR "/src/src/Onboarding/Masters_Onboard/Masters.Api"
+RUN dotnet build "Masters.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "FixedIncomeInstrument.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Masters.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "FixedIncomeInstrument.Api.dll"]
+ENTRYPOINT ["dotnet", "Masters.Api.dll"]

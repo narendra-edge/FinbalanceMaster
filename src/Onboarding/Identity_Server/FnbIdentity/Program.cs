@@ -1,14 +1,15 @@
-using Duende.IdentityServer.Services;
+using Duende.IdentityServer.EntityFramework.Options;
 using FnbIdentity;
 using FnbIdentity.Database;
+using FnbIdentity.Factories;
 using FnbIdentity.Model;
-using FnbIdentity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Reflection;
 
 Log.Logger = new LoggerConfiguration()
   .WriteTo.Console()
@@ -19,21 +20,19 @@ Log.Information("Starting up");
 
 var builder = WebApplication.CreateBuilder(args);
 
-var Configuration = builder.Configuration;
-
-var connectionString = Configuration.GetConnectionString("FbIdentityServer");
-
-var migrationsAssembly = typeof(Config).Assembly.GetName().Name;
-
+//var Configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>((ServiceProvider,dbContextOptionsBuilder) =>
 {
-    options.UseSqlServer(connectionString, sqloptions => sqloptions.MigrationsAssembly(migrationsAssembly));
+    dbContextOptionsBuilder.UseSqlServer(ServiceProvider.
+        GetRequiredService<IConfiguration>().GetConnectionString("FbIdentityUser"), SqlServerOptionsAction);
 });
 
 builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+                .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer(options =>
@@ -46,11 +45,16 @@ builder.Services.AddIdentityServer(options =>
     options.EmitStaticAudienceClaim = true;
 
 }).AddServerSideSessions()
-  .AddConfigurationStore(options => options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
-  opt => opt.MigrationsAssembly(migrationsAssembly)))
-  .AddOperationalStore(options => options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
-    opt => opt.MigrationsAssembly(migrationsAssembly)))
- .AddAspNetIdentity<ApplicationUser>();
+  .AddConfigurationStore(configurationsStoreOptions =>
+  {
+      configurationsStoreOptions.ResolveDbContextOptions = ResolveDbContextOptions;
+  })
+  .AddOperationalStore(OperationalStoreOptions =>
+  {
+      OperationalStoreOptions.ResolveDbContextOptions = ResolveDbContextOptions;
+  });
+ //.AddAspNetIdentity<ApplicationUser>();
+ 
                  //.AddProfileService<ProfileService>();
 //builder.Services.AddScoped<IProfileService, ProfileService>();
 
@@ -81,7 +85,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseHttpsRedirection();
 app.UseIdentityServer();
 app.UseStaticFiles();
 app.UseRouting();
@@ -89,13 +93,21 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-//if (args.Contains("/seed"))
-//{
-//    Log.Information("Seeding database...");
-  //  SeedData.EnsureSeedData(app);
- //   Log.Information("Done seeding database. Exiting.");
-  //  return;
-//}
-
+if (args.Contains("/seed"))
+{
+    Log.Information("seeding database...");
+     SeedData.EnsureSeedData(app);
+    Log.Information("done seeding database. exiting.");
+    return;
+}
 
 app.Run();
+void SqlServerOptionsAction(SqlServerDbContextOptionsBuilder sqlServerDbContextOptionsBuilder )
+   {
+    sqlServerDbContextOptionsBuilder.MigrationsAssembly(typeof(Config).GetTypeInfo().Assembly.GetName().Name);
+   }
+void ResolveDbContextOptions(IServiceProvider serviceProvider, DbContextOptionsBuilder dbContextOptionsBuilder ) 
+    {
+    dbContextOptionsBuilder.UseSqlServer(serviceProvider.GetRequiredService<IConfiguration>()
+    .GetConnectionString("FbIdentityServer"), SqlServerOptionsAction);
+    } 
