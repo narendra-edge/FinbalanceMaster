@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using FnbIdentity.Infrastructure.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +51,7 @@ namespace FnbIdentity.Infrastructure.Constants
             return standardClaims;
         }
 
-        public static List<string> GetGrantType()
+        public static List<string> GetGrantTypes()
         {
             var allowedGrantypes = new List<string>
             {
@@ -84,9 +84,9 @@ namespace FnbIdentity.Infrastructure.Constants
             return signingAlgorithms;
         }
 
-        public static List<SelectListItem> GetProtocolTypes()
+        public static List<SelectItem> GetProtocolTypes()
         {
-            var protocolTypes = new List<SelectListItem> { new ("oidc", "OpenID Connect") };
+            var protocolTypes = new List<SelectItem> { new ("oidc", "OpenID Connect") };
             return protocolTypes;
         }
     }

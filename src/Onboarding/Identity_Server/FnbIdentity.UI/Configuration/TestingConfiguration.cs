@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FnbIdentity.UI.Configuration
+{
+    public class TestingConfiguration
+    {    
+            /// <summary>
+            /// Use test instead of production services and pipelines.
+            /// </summary>
+            public bool IsStaging { get; set; }
+        
+    }
+}
