@@ -12,5 +12,7 @@
 
         public const string DataProtectionDbConnectionStringKey = "DataProtectionDbConnection";
 
+        public const string ResourcesPath = "Resources";
+
     }
 }

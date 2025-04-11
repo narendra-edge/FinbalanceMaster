@@ -1,9 +1,16 @@
-﻿using FnbIdentity.Infrastructure.Configuration;
+﻿using FnbIdentity.Core.Shared.Helpers;
+using FnbIdentity.Infrastructure.Configuration;
 using FnbIdentity.Infrastructure.DbContexts;
 using FnbIdentity.Infrastructure.Entities.Identity;
 using FnbIdentity.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FbSuperAdmin_Administrator
 {
@@ -22,7 +29,7 @@ namespace FbSuperAdmin_Administrator
 
             try
             {
-                
+               // DockerHelpers.ApplyDockerConfiguration(configuration);
 
                 var host = CreateHostBuilder(args).Build();
 

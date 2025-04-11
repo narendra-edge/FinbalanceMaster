@@ -126,6 +126,7 @@ namespace FnbIdentity.Infrastructure.Helpers
 
             return true;
         }
+
         /// <summary>
         /// Generate default admin user / role
         /// </summary>
@@ -155,7 +156,47 @@ namespace FnbIdentity.Infrastructure.Helpers
                     }
                 }
             }
+
+            // adding users from seed
+            foreach (var user in identityDataConfiguration.Users)
+            {
+                var identityUser = new TUser
+                {
+                    UserName = user.Username,
+                    Email = user.Email,
+                    EmailConfirmed = true
+                };
+
+                var userByUserName = await userManager.FindByNameAsync(user.Username);
+                var userByEmail = await userManager.FindByEmailAsync(user.Email);
+
+                // User is already exists in database
+                if (userByUserName != default || userByEmail != default)
+                {
+                    continue;
+                }
+
+                // if there is no password we create user without password
+                // user can reset password later, because accounts have EmailConfirmed set to true
+                var result = !string.IsNullOrEmpty(user.Password)
+                ? await userManager.CreateAsync(identityUser, user.Password)
+                : await userManager.CreateAsync(identityUser);
+
+                if (result.Succeeded)
+                {
+                    foreach (var claim in user.Claims)
+                    {
+                        await userManager.AddClaimAsync(identityUser, new System.Security.Claims.Claim(claim.Type, claim.Value));
+                    }
+
+                    foreach (var role in user.Roles)
+                    {
+                        await userManager.AddToRoleAsync(identityUser, role);
+                    }
+                }
+            }
         }
+
 
         /// <summary>
         /// Generate default clients, identity and api resources

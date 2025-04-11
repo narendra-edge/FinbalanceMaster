@@ -145,6 +145,12 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
             return hashTypes;
         }
 
+        public virtual List<SelectItem> GetDPoPValidationModes()
+        {
+            var modes = EnumHelpers.ToSelectList<DPoPTokenExpirationValidationMode>();
+            return modes;
+        }
+
         public virtual async Task<int> AddClientSecretAsync(int clientId, ClientSecret clientSecret)
         {
             var client = await DbContext.Clients.Where(x => x.Id == clientId).SingleOrDefaultAsync();

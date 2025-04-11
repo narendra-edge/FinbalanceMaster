@@ -26,7 +26,6 @@ namespace FnbIdentity.Infrastructure.Constants
         {
             var standardClaims = new List<string>
             {
-                "sub",
                 "name",
                 "given_name",
                 "family_name",
@@ -36,17 +35,12 @@ namespace FnbIdentity.Infrastructure.Constants
                 "profile",
                 "picture",
                 "website",
-                "email",
-                "email_verified",
                 "gender",
                 "birthdate",
                 "zoneinfo",
-                "birthdate",
                 "locale",
-                "phone_number",
-                "phone_number_verified",
                 "address",
-                "updated_at",
+                "updated_at"
             };
             return standardClaims;
         }
@@ -65,6 +59,25 @@ namespace FnbIdentity.Infrastructure.Constants
                 "urn:openid:params:grant-type:ciba"
             };
             return allowedGrantypes;
+        }
+
+        public static List<(string Id, string Label, bool Deprecated)> GetGrantTypes(bool includeObsoleteGrants)
+        {
+            var allowedGrantypes = new List<(string Id, string Label, bool Deprecated)>
+            {
+                ("authorization_code", "Authorization Code", false),
+                ("implicit", "Implicit", true),
+                ("client_credentials", "Client Credentials", false),
+                ("hybrid", "Hybrid", false),
+                ("password", "Password", true),
+                ("urn:ietf:params:oauth:grant-type:device_code", "Device", false),
+                ("delegation", "Delegation", false),
+                ("urn:openid:params:grant-type:ciba", "CIBA", false)
+            };
+
+            return includeObsoleteGrants == false ?
+                allowedGrantypes.Where(x => x.Deprecated == false).ToList() :
+                allowedGrantypes;
         }
 
         public static List<string> SigningAlgorithms()

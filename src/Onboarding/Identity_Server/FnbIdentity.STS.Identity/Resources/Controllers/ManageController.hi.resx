@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AskForPersonalDataLog" xml:space="preserve">
+    <value>आईडी वाले उपयोगकर्ता {0} ने उनका व्यक्तिगत डेटा मांगा।</value>
+  </data>
+  <data name="AuthenticatorVerified" xml:space="preserve">
+    <value>आपका प्रमाणक ऐप सत्यापित हो गया है।</value>
+  </data>
+  <data name="ConfirmEmailBody" xml:space="preserve">
+    <value>कृपया अपने खाते की पुष्टि करें &lt;a href='{0}'&gt;यहां क्लिक करें&lt;/a&gt;</value>
+  </data>
+  <data name="ConfirmEmailTitle" xml:space="preserve">
+    <value>आपके ईमेल की पुष्टि करें।</value>
+  </data>
+  <data name="DeletePersonalData" xml:space="preserve">
+    <value>आईडी वाले उपयोगकर्ता {0} ने स्वयं को हटा दिया।</value>
+  </data>
+  <data name="Error2FANotEnabled" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता के लिए पुनर्प्राप्ति कोड उत्पन्न नहीं कर सकते क्योंकि उनके पास 2FA सक्षम नहीं है।</value>
+  </data>
+  <data name="ErrorCode" xml:space="preserve">
+    <value>कोड</value>
+  </data>
+  <data name="ErrorDeletingUser" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता को हटाने में अप्रत्याशित त्रुटि हुई।</value>
+  </data>
+  <data name="ErrorDisable2FA" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता के लिए 2FA को अक्षम करने में अप्रत्याशित त्रुटि उत्पन्न हुई।</value>
+  </data>
+  <data name="ErrorGenerateCodesWithout2FA" xml:space="preserve">
+    <value>उपयोगकर्ता के लिए पुनर्प्राप्ति कोड उत्पन्न नहीं कर सकते क्योंकि उनमें 2FA सक्षम नहीं है।</value>
+  </data>
+  <data name="ErrorLoadingExternalLogin" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता के लिए बाहरी लॉगिन जानकारी लोड करने में अप्रत्याशित त्रुटि हुई।</value>
+  </data>
+  <data name="ErrorRemovingExternalLogin" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता के लिए बाहरी लॉगिन हटाते समय अप्रत्याशित त्रुटि उत्पन्न हुई।</value>
+  </data>
+  <data name="ErrorSettingEmail" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता के लिए ईमेल सेट करने में अप्रत्याशित त्रुटि हुई।</value>
+  </data>
+  <data name="ErrorSettingPhone" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता के लिए फ़ोन नंबर सेट करने में अप्रत्याशित त्रुटि हुई।</value>
+  </data>
+  <data name="ExternalLoginAdded" xml:space="preserve">
+    <value>बाहरी लॉगिन जोड़ा गया।</value>
+  </data>
+  <data name="ExternalLoginRemoved" xml:space="preserve">
+    <value>बाहरी लॉगिन हटा दिया गया था।</value>
+  </data>
+  <data name="InvalidVerificationCode" xml:space="preserve">
+    <value>सत्यापन कोड अमान्य है।</value>
+  </data>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>आपका पासवर्ड बदल दिया गया है।</value>
+  </data>
+  <data name="PasswordChangedLog" xml:space="preserve">
+    <value>उपयोगकर्ता {0} ने अपना पासवर्ड सफलतापूर्वक बदल लिया।</value>
+  </data>
+  <data name="PasswordNotCorrect" xml:space="preserve">
+    <value>पासवर्ड सही नहीं है।</value>
+  </data>
+  <data name="PasswordSet" xml:space="preserve">
+    <value>आपका पासवर्ड सेट कर दिया गया है।</value>
+  </data>
+  <data name="ProfileUpdated" xml:space="preserve">
+    <value>आपका प्रोफाइल अपडेट किया गया है ।</value>
+  </data>
+  <data name="SuccessDisabled2FA" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता ने 2fa को अक्षम कर दिया है।</value>
+  </data>
+  <data name="SuccessForgetBrowser2FA" xml:space="preserve">
+    <value>वर्तमान ब्राउज़र को भुला दिया गया है. जब आप इस ब्राउज़र से दोबारा लॉगिन करेंगे तो आपसे आपका 2fa कोड मांगा जाएगा।</value>
+  </data>
+  <data name="SuccessResetAuthenticationKey" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता ने अपनी प्रमाणीकरण ऐप कुंजी रीसेट कर दी है।</value>
+  </data>
+  <data name="SuccessUserEnabled2FA" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता ने प्रमाणक ऐप के साथ 2FA सक्षम किया है।</value>
+  </data>
+  <data name="UserGenerated2FACodes" xml:space="preserve">
+    <value>आईडी {0} वाले उपयोगकर्ता ने नए 2FA पुनर्प्राप्ति कोड जेनरेट किए हैं।</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>आईडी {0} वाला उपयोगकर्ता लोड करने में असमर्थ।</value>
+  </data>
+  <data name="VerificationSent" xml:space="preserve">
+    <value>सत्यापन विद्युतडाक भेज दिया गया है। कृपया अपनी ईमेल देखें।</value>
+  </data>
+</root>

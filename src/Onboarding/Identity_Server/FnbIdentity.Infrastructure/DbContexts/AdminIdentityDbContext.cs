@@ -1,4 +1,5 @@
-﻿using FnbIdentity.Infrastructure.Constants;
+﻿using FnbIdentity.Infrastructure.Configuration.Schema;
+using FnbIdentity.Infrastructure.Constants;
 using FnbIdentity.Infrastructure.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +11,12 @@ namespace FnbIdentity.Infrastructure.DbContexts
         UserIdentityUserClaim, UserIdentityUserRole, UserIdentityUserLogin, UserIdentityRoleClaim,
         UserIdentityUserToken>
     {
-        public AdminIdentityDbContext(DbContextOptions<AdminIdentityDbContext> options) : base(options)
-        { }
+        private readonly IdentityTableConfiguration _schemaConfiguration;
+
+        public AdminIdentityDbContext(DbContextOptions<AdminIdentityDbContext> options, IdentityTableConfiguration schemaConfiguration = null) : base(options)
+        {
+            _schemaConfiguration = schemaConfiguration ?? new IdentityTableConfiguration();
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -20,14 +25,14 @@ namespace FnbIdentity.Infrastructure.DbContexts
         }
         private void ConfigureIdentityContext(ModelBuilder builder)
         {
-            builder.Entity<UserIdentityRole>().ToTable(TableConsts.IdentityRoles);
-            builder.Entity<UserIdentityRoleClaim>().ToTable(TableConsts.IdentityRoleClaims);
-            builder.Entity<UserIdentityUserRole>().ToTable(TableConsts.IdentityUserRoles);
+            builder.Entity<UserIdentityRole>().ToTable(_schemaConfiguration.IdentityRoles);
+            builder.Entity<UserIdentityRoleClaim>().ToTable(_schemaConfiguration.IdentityRoleClaims);
+            builder.Entity<UserIdentityUserRole>().ToTable(_schemaConfiguration.IdentityUserRoles);
 
-            builder.Entity<UserIdentity>().ToTable(TableConsts.IdentityUsers);
-            builder.Entity<UserIdentityUserLogin>().ToTable(TableConsts.IdentityUserLogins);
-            builder.Entity<UserIdentityUserClaim>().ToTable(TableConsts.IdentityUserClaims);
-            builder.Entity<UserIdentityUserToken>().ToTable(TableConsts.IdentityUserTokens);
+            builder.Entity<UserIdentity>().ToTable(_schemaConfiguration.IdentityUsers);
+            builder.Entity<UserIdentityUserLogin>().ToTable(_schemaConfiguration.IdentityUserLogins);
+            builder.Entity<UserIdentityUserClaim>().ToTable(_schemaConfiguration.IdentityUserClaims);
+            builder.Entity<UserIdentityUserToken>().ToTable(_schemaConfiguration.IdentityUserTokens);
         }
     }
 }

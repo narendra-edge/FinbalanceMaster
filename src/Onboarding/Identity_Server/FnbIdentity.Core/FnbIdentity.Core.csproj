@@ -1,9 +1,107 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+
+
+
+  <ItemGroup>
+    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="SendGrid" Version="9.29.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FnbIdentity.Infrastructure\FnbIdentity.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="IdentityResources\IdentityServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IdentityServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="IdentityResources\PersistedGrantServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PersistedGrantServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ApiResourceServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApiResourceServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ApiScopeServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApiScopeServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ClientServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClientServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\IdentityProviderServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IdentityProviderServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\IdentityResourceServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IdentityResourceServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\KeyServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>KeyServiceResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\PersistedGrantServiceResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PersistedGrantServiceResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="IdentityResources\IdentityServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IdentityServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="IdentityResources\PersistedGrantServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PersistedGrantServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ApiResourceServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApiResourceServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ApiScopeServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApiScopeServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ClientServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ClientServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\IdentityProviderServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IdentityProviderServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\IdentityResourceServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IdentityResourceServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\KeyServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>KeyServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\PersistedGrantServiceResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PersistedGrantServiceResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

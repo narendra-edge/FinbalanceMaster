@@ -1,4 +1,5 @@
 ﻿using FnbIdentity.Infrastructure.Configuration;
+using System;
 using System.Reflection;
 using SqlMigrationAssembly = FnbIdentity.Infrastructure.Helpers.MigrationAssembly;
 namespace FbSuperAdmin_Administrator.Configuration.Database

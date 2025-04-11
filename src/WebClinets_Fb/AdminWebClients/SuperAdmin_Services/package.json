@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/node": "^20.11.16",
     "tailwindcss": "^3.3.2"
   },
   "name": "superadmin_services",
@@ -81,7 +82,6 @@
   },
   "scripts": {
     "css:build": "npx tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/styles.css --minify"
-    
   },
   "keywords": [],
   "author": "",

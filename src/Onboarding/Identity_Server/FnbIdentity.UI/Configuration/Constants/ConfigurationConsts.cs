@@ -18,7 +18,7 @@ namespace FnbIdentity.UI.Configuration.Constants
 
         public const string AdminLogDbConnectionStringKey = "AdminLogDbConnection";
 
-       // public const string ResourcesPath = "Resources";
+        public const string ResourcesPath = "Resources";
 
         public const string ConnectionStringsKey = "ConnectionStrings";
 

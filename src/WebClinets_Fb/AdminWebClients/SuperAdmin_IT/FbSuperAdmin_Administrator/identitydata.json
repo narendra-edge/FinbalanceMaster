@@ -1,0 +1,26 @@
+{
+  "IdentityData": {
+    "Roles": [
+      {
+        "Name": "FnbIdentityAdminAdministrator"
+      }
+    ],
+    "Users": [
+      {
+        "Username": "admin",
+        "Password": "Password$123",
+        "Email": "naren2050@gmail.com",
+        "Roles": [
+          "FnbIdentityAdminAdministrator"
+        ],
+        "Claims": [
+          {
+            "Type": "name",
+            "Value": "admin"
+          }
+        ]
+      }
+    ]
+  }
+
+}
