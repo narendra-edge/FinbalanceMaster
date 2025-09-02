@@ -13,7 +13,8 @@ namespace FnbIdentity.Infrastructure.DbContexts
     {
         private readonly IdentityTableConfiguration _schemaConfiguration;
 
-        public AdminIdentityDbContext(DbContextOptions<AdminIdentityDbContext> options, IdentityTableConfiguration schemaConfiguration = null) : base(options)
+        public AdminIdentityDbContext(DbContextOptions<AdminIdentityDbContext> options,
+            IdentityTableConfiguration schemaConfiguration = null) : base(options)
         {
             _schemaConfiguration = schemaConfiguration ?? new IdentityTableConfiguration();
         }

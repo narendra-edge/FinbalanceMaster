@@ -19,5 +19,6 @@ namespace FnbIdentity.Core.Dtos.Common
         public bool EnableSearch { get; set; } = false;
 
         public int MaxPages { get; set; } = 10;
+        public Dictionary<string, string> AdditionalParameters { get; } = new();
     }
 }

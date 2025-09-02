@@ -1,5 +1,4 @@
 ﻿
-
 namespace FnbIdentity.Infrastructure.Helpers
 {
     public enum HashType

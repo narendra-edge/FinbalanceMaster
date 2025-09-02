@@ -36,12 +36,14 @@ namespace FnbIdentity.Core.Dtos.Configuration
 
         public List<SelectItemDto> HashTypes { get; set; }
 
-        public DateTime Expiration { get; set; }
+        public DateTime? Expiration { get; set; }
 
         public int TotalCount { get; set; }
 
         public int PageSize { get; set; }
 
         public List<ApiSecretDto> ApiSecrets { get; set; }
+
+        public DateTime Created { get; set; }
     }
 }

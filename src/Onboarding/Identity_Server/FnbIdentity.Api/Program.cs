@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using FnbIdentity.Core.Shared.Helpers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -18,7 +19,7 @@ namespace FnbIdentity.Api
                 .CreateLogger();
             try
             {
-               // DockerHelpers.ApplyDockerConfiguration(configuration);
+                //DockerHelpers.ApplyDockerConfiguration(configuration);
 
                 CreateHostBuilder(args).Build().Run();
             }
@@ -31,6 +32,7 @@ namespace FnbIdentity.Api
                 Log.CloseAndFlush();
             }
         }
+
         private static IConfiguration GetConfiguration(string[] args)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -57,6 +59,7 @@ namespace FnbIdentity.Api
 
             return configurationBuilder.Build();
         }
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                  .ConfigureAppConfiguration((hostContext, configApp) =>
@@ -74,7 +77,7 @@ namespace FnbIdentity.Api
                          configApp.AddUserSecrets<Startup>(true);
                      }
 
-                    // configurationRoot.AddAzureKeyVaultConfiguration(configApp);
+                     //configurationRoot.AddAzureKeyVaultConfiguration(configApp);
 
                      configApp.AddEnvironmentVariables();
                      configApp.AddCommandLine(args);

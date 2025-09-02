@@ -1,8 +1,7 @@
-﻿using Duende.IdentityServer.EntityFramework.Mappers;
-using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer.Models;
+using Duende.IdentityServer.EntityFramework.Mappers;
 using FnbIdentity.Infrastructure.Configuration;
 using FnbIdentity.Infrastructure.Interfaces;
-using IdentityModel;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Duende.IdentityModel;
 
 namespace FnbIdentity.Infrastructure.Helpers
 {
@@ -20,24 +20,23 @@ namespace FnbIdentity.Infrastructure.Helpers
     {
         /// <summary>
         /// Generate migrations before running this method, you can use these steps bellow:
-       
+
         /// </summary>
         /// <param name="host"></param>
         /// <param name="applyDbMigrationWithDataSeedFromProgramArguments"></param>
         /// <param name="seedConfiguration"></param>
         /// <param name="databaseMigrationsConfiguration"></param>
-        public static async Task<bool> ApplyDbMigrationsWithDataSeedAsync<TIdentityDbContext, TPersistedGrantDbContext,
-                                        TLogDbContext, TIdentityServerDbContext, TDataProtectionDbContext, TUser, TRole>(
-               IHost host, bool applyDbMigrationWithDataSeedFromProgramArguments, SeedConfiguration seedConfiguration,
-              DatabaseMigrationsConfiguration databaseMigrationsConfiguration)
-
-            where TIdentityDbContext : DbContext
-            where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
-            where TLogDbContext : DbContext, IAdminLogDbContext
-            where TIdentityServerDbContext : DbContext, IAdminConfigurationDbContext
-            where TDataProtectionDbContext : DbContext, IDataProtectionKeyContext
-            where TUser : IdentityUser, new()
-            where TRole : IdentityRole, new()
+        public static async Task<bool> ApplyDbMigrationsWithDataSeedAsync<TIdentityServerDbContext, TIdentityDbContext,
+                   TPersistedGrantDbContext, TLogDbContext, TDataProtectionDbContext, TUser, TRole>(
+                   IHost host, bool applyDbMigrationWithDataSeedFromProgramArguments, SeedConfiguration seedConfiguration,
+                   DatabaseMigrationsConfiguration databaseMigrationsConfiguration)
+                   where TIdentityServerDbContext : DbContext, IAdminConfigurationDbContext
+                   where TIdentityDbContext : DbContext
+                   where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
+                   where TLogDbContext : DbContext, IAdminLogDbContext
+                   where TDataProtectionDbContext : DbContext, IDataProtectionKeyContext
+                   where TUser : IdentityUser, new()
+                   where TRole : IdentityRole, new()
         {
             var migrationComplete = false;
 
@@ -48,7 +47,7 @@ namespace FnbIdentity.Infrastructure.Helpers
                 if ((databaseMigrationsConfiguration != null && databaseMigrationsConfiguration.ApplyDatabaseMigrations)
                     || (applyDbMigrationWithDataSeedFromProgramArguments))
                 {
-                    migrationComplete = await EnsureDatabasesMigratedAsync <TIdentityServerDbContext, TPersistedGrantDbContext, TLogDbContext, TIdentityDbContext, TDataProtectionDbContext > (services);
+                    migrationComplete = await EnsureDatabasesMigratedAsync<TIdentityDbContext, TIdentityServerDbContext, TPersistedGrantDbContext, TLogDbContext, TDataProtectionDbContext>(services);
                 }
 
                 if ((seedConfiguration != null && seedConfiguration.ApplySeed)
@@ -62,13 +61,13 @@ namespace FnbIdentity.Infrastructure.Helpers
 
             return migrationComplete;
         }
-        public static async Task<bool> EnsureDatabasesMigratedAsync<TConfigurationDbContext, TPersistedGrantDbContext,
-                             TLogDbContext, TIdentityDbContext, TDataProtectionDbContext>(IServiceProvider services)
 
+        public static async Task<bool> EnsureDatabasesMigratedAsync<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext,  TDataProtectionDbContext>(IServiceProvider services)
+            where TIdentityDbContext : DbContext
             where TPersistedGrantDbContext : DbContext
             where TConfigurationDbContext : DbContext
             where TLogDbContext : DbContext
-            where TIdentityDbContext : DbContext
+
             where TDataProtectionDbContext : DbContext
         {
             var pendingMigrationCount = 0;
@@ -98,19 +97,27 @@ namespace FnbIdentity.Infrastructure.Helpers
                     await context.Database.MigrateAsync();
                     pendingMigrationCount += (await context.Database.GetPendingMigrationsAsync()).Count();
                 }
+
+                //using (var context = scope.ServiceProvider.GetRequiredService<TAuditLogDbContext>())
+                //{
+                //    await context.Database.MigrateAsync();
+                //    pendingMigrationCount += (await context.Database.GetPendingMigrationsAsync()).Count();
+                //}
+
                 using (var context = scope.ServiceProvider.GetRequiredService<TDataProtectionDbContext>())
                 {
                     await context.Database.MigrateAsync();
                     pendingMigrationCount += (await context.Database.GetPendingMigrationsAsync()).Count();
                 }
-
-                return pendingMigrationCount == 0;
             }
+
+            return pendingMigrationCount == 0;
         }
+
         public static async Task<bool> EnsureSeedDataAsync<TIdentityServerDbContext, TUser, TRole>(IServiceProvider serviceProvider)
-         where TIdentityServerDbContext : DbContext, IAdminConfigurationDbContext
-         where TUser : IdentityUser, new()
-         where TRole : IdentityRole, new()
+        where TIdentityServerDbContext : DbContext, IAdminConfigurationDbContext
+        where TUser : IdentityUser, new()
+        where TRole : IdentityRole, new()
         {
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
@@ -196,7 +203,6 @@ namespace FnbIdentity.Infrastructure.Helpers
                 }
             }
         }
-
 
         /// <summary>
         /// Generate default clients, identity and api resources

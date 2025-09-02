@@ -20,7 +20,7 @@ using ClientClaim = Duende.IdentityServer.EntityFramework.Entities.ClientClaim;
 
 namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
 {
-    public class ClientRepository<TDbContext> :IClientRepository
+    public class ClientRepository<TDbContext> : IClientRepository
     where TDbContext : DbContext, IAdminConfigurationDbContext
     {
         protected readonly TDbContext DbContext;
@@ -30,6 +30,7 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
         {
             DbContext = dbContext;
         }
+
         public virtual Task<Client> GetClientAsync(int clientId)
         {
             return DbContext.Clients
@@ -60,7 +61,7 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
             return pagedList;
         }
 
-        public virtual async Task<List<string>> GetScopesAsync(string scope, int limit = 0)
+        public virtual async Task<List<string>> GetScopesAsync(string scope, int limit = 0, bool excludeIdentityResources = false, bool excludeApiScopes = false)
         {
             var identityResources = await DbContext.IdentityResources
                 .WhereIf(!string.IsNullOrEmpty(scope), x => x.Name.Contains(scope))
@@ -72,16 +73,28 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
                 .TakeIf(x => x.Id, limit > 0, limit)
                 .Select(x => x.Name).ToListAsync();
 
+            if (excludeIdentityResources)
+            {
+                return apiScopes;
+            }
+
+            if (excludeApiScopes)
+            {
+                return identityResources;
+            }
+
             var scopes = identityResources.Concat(apiScopes).TakeIf(x => x, limit > 0, limit).ToList();
 
             return scopes;
         }
 
-        public virtual List<string> GetGrantTypes(string grant, int limit = 0)
+        public virtual List<SelectItem> GetGrantTypes(string grant, bool includeObsoleteGrants, int limit = 0)
         {
-            var filteredGrants = ClientConsts.GetGrantTypes()
-                .WhereIf(!string.IsNullOrWhiteSpace(grant), x => x.Contains(grant))
+            var filteredGrants = ClientConsts.GetGrantTypes(includeObsoleteGrants)
+                .WhereIf(!string.IsNullOrWhiteSpace(grant), x => x.Id.Contains(grant) || x.Label.Contains(grant))
                 .TakeIf(x => x, limit > 0, limit)
+                .Select(x => new SelectItem(x.Id, x.Label))
+                .OrderBy(x => x.Id)
                 .ToList();
 
             return filteredGrants;
@@ -158,7 +171,8 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
 
             await DbContext.ClientSecrets.AddAsync(clientSecret);
 
-            return await AutoSaveChangesAsync();
+            await AutoSaveChangesAsync();
+            return clientSecret.Id;
         }
 
         protected virtual async Task<int> AutoSaveChangesAsync()
@@ -181,7 +195,8 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
             clientClaim.Client = client;
             await DbContext.ClientClaims.AddAsync(clientClaim);
 
-            return await AutoSaveChangesAsync();
+            await AutoSaveChangesAsync();
+            return clientClaim.Id;
         }
 
         public virtual async Task<int> AddClientPropertyAsync(int clientId, ClientProperty clientProperty)
@@ -191,7 +206,8 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
             clientProperty.Client = client;
             await DbContext.ClientProperties.AddAsync(clientProperty);
 
-            return await AutoSaveChangesAsync();
+            await AutoSaveChangesAsync();
+            return clientProperty.Id;
         }
 
         public virtual async Task<(string ClientId, string ClientName)> GetClientIdAsync(int clientId)
@@ -475,4 +491,5 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
             return await AutoSaveChangesAsync();
         }
     }
+    
 }

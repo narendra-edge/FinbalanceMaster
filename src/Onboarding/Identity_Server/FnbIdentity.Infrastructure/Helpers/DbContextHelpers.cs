@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FnbIdentity.Infrastructure.Helpers
 {
-    public  class DbContextHelpers
+    public static class DbContextHelpers
     {
         /// <summary>
         /// Get the table name of an entity in the given DbContext
@@ -14,9 +14,8 @@ namespace FnbIdentity.Infrastructure.Helpers
         /// <param name="entityTypeName">If specified, the full name of the type of the entity. 
         /// Otherwise, the first entity in the DbContext will be retrieved</param>
         /// <returns></returns>
-
         public static string GetEntityTable<TDbContext>(IServiceProvider serviceProvider, string entityTypeName = null)
-           where TDbContext : DbContext
+            where TDbContext : DbContext
         {
             var db = serviceProvider.GetService<TDbContext>();
             if (db != null)

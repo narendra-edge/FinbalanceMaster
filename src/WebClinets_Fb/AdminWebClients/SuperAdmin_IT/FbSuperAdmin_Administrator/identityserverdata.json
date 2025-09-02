@@ -88,7 +88,7 @@
         "AllowedGrantTypes": [
           "authorization_code"
         ],
-        "RequirePkce": true,
+        "RequirePkce": false,
         "ClientSecrets": [
           {
             "Value": "fnbidentity_client_secret"

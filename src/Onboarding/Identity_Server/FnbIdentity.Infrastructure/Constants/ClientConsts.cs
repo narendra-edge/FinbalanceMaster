@@ -45,21 +45,6 @@ namespace FnbIdentity.Infrastructure.Constants
             return standardClaims;
         }
 
-        public static List<string> GetGrantTypes()
-        {
-            var allowedGrantypes = new List<string>
-            {
-                "implicit",
-                "client_credentials",
-                "authorization_code",
-                "hybrid",
-                "password",
-                "urn:ietf:params:oauth:grant-type:device_code",
-                "delegation",
-                "urn:openid:params:grant-type:ciba"
-            };
-            return allowedGrantypes;
-        }
 
         public static List<(string Id, string Label, bool Deprecated)> GetGrantTypes(bool includeObsoleteGrants)
         {

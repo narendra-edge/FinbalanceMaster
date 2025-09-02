@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FnbIdentity.Core.Dtos.Logs;
+using FnbIdentity.Core.Dtos.Log;
 using FnbIdentity.Infrastructure.Common;
 using FnbIdentity.Infrastructure.Entities;
 using System;

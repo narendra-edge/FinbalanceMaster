@@ -30,9 +30,10 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer.Interfaces
 
         Task<PagedList<Client>> GetClientsAsync(string search = "", int page = 1, int pageSize = 10);
 
-        Task<List<string>> GetScopesAsync(string scope, int limit = 0);
+        Task<List<string>> GetScopesAsync(string scope, int limit = 0, bool excludeIdentityResources = false,
+            bool excludeApiScopes = false);
 
-        List<string> GetGrantTypes(string grant, int limit = 0);
+        List<SelectItem> GetGrantTypes(string grant, bool includeObsoleteGrants, int limit = 0);
 
         List<SelectItem> GetProtocolTypes();
 

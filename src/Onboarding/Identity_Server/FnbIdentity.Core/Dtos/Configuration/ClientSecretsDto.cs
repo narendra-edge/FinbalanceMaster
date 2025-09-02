@@ -18,25 +18,25 @@ namespace FnbIdentity.Core.Dtos.Configuration
 
         public int ClientId { get; set; }
 
-        public string? ClientName { get; set; }
+        public string ClientName { get; set; }
 
         public int ClientSecretId { get; set; }
 
         [Required]
-        public string? Type { get; set; } = "SharedSecret";
+        public string Type { get; set; } = "SharedSecret";
 
-        public List<SelectItemDto>? TypeList { get; set; }
+        public List<SelectItemDto> TypeList { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Required]
-        public string? Value { get; set; }
+        public string Value { get; set; }
 
-        public string? HashType { get; set; }
+        public string HashType { get; set; }
 
         public HashType HashTypeEnum => Enum.TryParse(HashType, true, out HashType result) ? result : Infrastructure.Helpers.HashType.Sha256;
 
-        public List<SelectItemDto>? HashTypes { get; set; }
+        public List<SelectItemDto> HashTypes { get; set; }
 
         public DateTime? Expiration { get; set; }
 
@@ -44,6 +44,8 @@ namespace FnbIdentity.Core.Dtos.Configuration
 
         public int PageSize { get; set; }
 
-        public List<ClientSecretDto>? ClientSecrets { get; set; }
+        public List<ClientSecretDto> ClientSecrets { get; set; }
+
+        public DateTime Created { get; set; }
     }
 }

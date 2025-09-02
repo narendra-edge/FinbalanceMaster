@@ -184,6 +184,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Finbalance-User", "Finbalance-User", "{42BF318A-645B-42F1-B606-BCC1A59D669B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FnbIdentity.Api", "src\Onboarding\Identity_Server\FnbIdentity.Api\FnbIdentity.Api.csproj", "{CD9E0C4D-59F0-4572-986E-7D56023D26F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB4DD76D-5604-4860-8DBB-2EC25D46690E} = {EB4DD76D-5604-4860-8DBB-2EC25D46690E}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FnbIdentity.Core", "src\Onboarding\Identity_Server\FnbIdentity.Core\FnbIdentity.Core.csproj", "{24A7A73E-5215-45C0-A364-CDAE39907CF6}"
 EndProject
@@ -194,6 +197,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FnbIdentity.UI", "src\Onboarding\Identity_Server\FnbIdentity.UI\FnbIdentity.UI.csproj", "{FEADD3E5-8092-47DA-8FB9-9861D8E233FD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FnbIdentity.STS.Identity", "src\Onboarding\Identity_Server\FnbIdentity.STS.Identity\FnbIdentity.STS.Identity.csproj", "{281CFDF3-C0FA-4372-8766-D83974E8BAC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FnbIdentity.UI.API", "src\Onboarding\Identity_Server\FnbIdentity.UI.API\FnbIdentity.UI.API.csproj", "{EB4DD76D-5604-4860-8DBB-2EC25D46690E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{24A7A73E-5215-45C0-A364-CDAE39907CF6} = {24A7A73E-5215-45C0-A364-CDAE39907CF6}
+		{9BCA0C5B-9423-48E2-87AF-A365A62F3779} = {9BCA0C5B-9423-48E2-87AF-A365A62F3779}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -427,6 +436,10 @@ Global
 		{281CFDF3-C0FA-4372-8766-D83974E8BAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{281CFDF3-C0FA-4372-8766-D83974E8BAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{281CFDF3-C0FA-4372-8766-D83974E8BAC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB4DD76D-5604-4860-8DBB-2EC25D46690E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4DD76D-5604-4860-8DBB-2EC25D46690E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4DD76D-5604-4860-8DBB-2EC25D46690E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4DD76D-5604-4860-8DBB-2EC25D46690E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -527,6 +540,7 @@ Global
 		{4E3901B3-92FD-4710-85B3-214ACA9F9D96} = {5E6C6076-7647-4CC7-B64B-88F10C4CB031}
 		{FEADD3E5-8092-47DA-8FB9-9861D8E233FD} = {5684BB70-1F40-468F-A1AF-F1E0E10EBF66}
 		{281CFDF3-C0FA-4372-8766-D83974E8BAC4} = {5684BB70-1F40-468F-A1AF-F1E0E10EBF66}
+		{EB4DD76D-5604-4860-8DBB-2EC25D46690E} = {5684BB70-1F40-468F-A1AF-F1E0E10EBF66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FB30C08D-7CF5-4974-A5ED-F0CA188352FD}

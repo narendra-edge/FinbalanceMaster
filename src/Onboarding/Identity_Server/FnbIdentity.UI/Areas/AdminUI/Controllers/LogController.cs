@@ -1,4 +1,4 @@
-﻿using FnbIdentity.Core.Dtos.Logs;
+﻿using FnbIdentity.Core.Dtos.Log;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.UI.Configuration.Constants;
 using Microsoft.AspNetCore.Authorization;

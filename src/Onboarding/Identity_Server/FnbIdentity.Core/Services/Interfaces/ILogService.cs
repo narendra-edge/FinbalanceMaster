@@ -1,4 +1,4 @@
-﻿using FnbIdentity.Core.Dtos.Logs;
+﻿using FnbIdentity.Core.Dtos.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;

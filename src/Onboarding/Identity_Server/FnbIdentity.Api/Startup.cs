@@ -1,16 +1,11 @@
 ﻿using FnbIdentity.Api.Configuration;
-using FnbIdentity.Api.Configuration.Authorization;
-using FnbIdentity.Api.ExceptionHandling;
-using FnbIdentity.Api.Helpers;
-using FnbIdentity.Api.Mappers;
-using FnbIdentity.Api.Resources;
-using FnbIdentity.Core.Extentions;
-using FnbIdentity.Core.IdentityExtentions;
 using FnbIdentity.Core.Shared.Dtos;
 using FnbIdentity.Core.Shared.Dtos.Identity;
 using FnbIdentity.Core.Shared.Helpers;
 using FnbIdentity.Infrastructure.DbContexts;
 using FnbIdentity.Infrastructure.Entities.Identity;
+using FnbIdentity.UI.API.Configuration;
+using FnbIdentity.UI.API.Helpers;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -18,9 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
+using NSwag.AspNetCore;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace FnbIdentity.Api
@@ -51,8 +44,7 @@ namespace FnbIdentity.Api
             // Add email senders which is currently setup for SendGrid and SMTP
             services.AddEmailSenders(Configuration);
 
-            services.AddScoped<ControllerExceptionFilterAttribute>();
-            services.AddScoped<IApiErrorResources, ApiErrorResources>();
+           
 
             // Add authentication services
             RegisterAuthentication(services);
@@ -60,52 +52,18 @@ namespace FnbIdentity.Api
             // Add authorization services
             RegisterAuthorization(services);
 
-            var profileTypes = new HashSet<Type>
-            {
-                typeof(IdentityMapperProfile<IdentityRoleDto, IdentityUserRolesDto, string, IdentityUserClaimsDto, IdentityUserClaimDto, IdentityUserProviderDto, IdentityUserProvidersDto, IdentityUserChangePasswordDto, IdentityRoleClaimDto, IdentityRoleClaimsDto>)
-            };
 
-            services.AddAdminAspNetIdentityServices<AdminIdentityDbContext, IdentityServerPersistedGrantDbContext,
+
+            services.AddIdentityServerAdminApi<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, IdentityServerDataProtectionDbContext, AdminLogDbContext,
                 IdentityUserDto, IdentityRoleDto, UserIdentity, UserIdentityRole, string, UserIdentityUserClaim, UserIdentityUserRole,
                 UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken,
                 IdentityUsersDto, IdentityRolesDto, IdentityUserRolesDto,
                 IdentityUserClaimsDto, IdentityUserProviderDto, IdentityUserProvidersDto, IdentityUserChangePasswordDto,
-                IdentityRoleClaimsDto, IdentityUserClaimDto, IdentityRoleClaimDto>(profileTypes);
+                IdentityRoleClaimsDto, IdentityUserClaimDto, IdentityRoleClaimDto>(Configuration, adminApiConfiguration);
 
-            services.AddAdminServices<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminLogDbContext>();
 
-            services.AddAdminApiCors(adminApiConfiguration);
-
-            services.AddMvcServices<IdentityUserDto, IdentityRoleDto,
-                UserIdentity, UserIdentityRole, string, UserIdentityUserClaim, UserIdentityUserRole,
-                UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken,
-                IdentityUsersDto, IdentityRolesDto, IdentityUserRolesDto,
-                IdentityUserClaimsDto, IdentityUserProviderDto, IdentityUserProvidersDto, IdentityUserChangePasswordDto,
-                IdentityRoleClaimsDto, IdentityUserClaimDto, IdentityRoleClaimDto>();
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc(adminApiConfiguration.ApiVersion, new OpenApiInfo { Title = adminApiConfiguration.ApiName, Version = adminApiConfiguration.ApiVersion });
-
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        AuthorizationCode = new OpenApiOAuthFlow
-                        {
-                            AuthorizationUrl = new Uri($"{adminApiConfiguration.IdentityServerBaseUrl}/connect/authorize"),
-                            TokenUrl = new Uri($"{adminApiConfiguration.IdentityServerBaseUrl}/connect/token"),
-                            Scopes = new Dictionary<string, string> {
-                                { adminApiConfiguration.OidcApiName, adminApiConfiguration.ApiName }
-                            }
-                        }
-                    }
-                });
-                options.OperationFilter<AuthorizeCheckOperationFilter>();
-            });
-
-            //services.AddAuditEventLogging<AdminAuditLogDbContext, AuditLog>(Configuration);
+            services.AddSwaggerServices(adminApiConfiguration);
+            
 
             services.AddIdSHealthChecks<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext,  AdminLogDbContext, AdminIdentityDbContext, IdentityServerDataProtectionDbContext>(Configuration, adminApiConfiguration);
         }
@@ -119,14 +77,16 @@ namespace FnbIdentity.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseOpenApi();
+            app.UseSwaggerUi(settings =>
             {
-                c.SwaggerEndpoint($"{adminApiConfiguration.ApiBaseUrl}/swagger/v1/swagger.json", adminApiConfiguration.ApiName);
-
-                c.OAuthClientId(adminApiConfiguration.OidcSwaggerUIClientId);
-                c.OAuthAppName(adminApiConfiguration.ApiName);
-                c.OAuthUsePkce();
+                settings.OAuth2Client = new OAuth2ClientSettings
+                {
+                    ClientId = adminApiConfiguration.OidcSwaggerUIClientId,
+                    AppName = adminApiConfiguration.ApiName,
+                    UsePkceWithAuthorizationCodeGrant = true,
+                    ClientSecret = null
+                };
             });
 
             app.UseRouting();

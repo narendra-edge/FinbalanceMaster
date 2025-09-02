@@ -30,9 +30,10 @@ namespace FnbIdentity.Core.Services.Interfaces
 
         Task<ClientsDto> GetClientsAsync(string search, int page = 1, int pageSize = 10);
 
-        Task<List<string>> GetScopesAsync(string scope, int limit = 0);
+        Task<List<string>> GetScopesAsync(string scope, int limit = 0, bool excludeIdentityResources = false,
+            bool excludeApiScopes = false);
 
-        List<string> GetGrantTypes(string grant, int limit = 0);
+        List<SelectItemDto> GetGrantTypes(string grant, bool includeObsoleteGrants, int limit = 0);
 
         List<SelectItemDto> GetAccessTokenTypes();
 
@@ -73,6 +74,7 @@ namespace FnbIdentity.Core.Services.Interfaces
         List<string> GetSigningAlgorithms(string algorithm, int limit = 0);
 
         List<SelectItemDto> GetProtocolTypes();
+
         List<SelectItemDto> GetDPoPValidationModes();
     }
 }

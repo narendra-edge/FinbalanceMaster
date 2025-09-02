@@ -1,5 +1,4 @@
-﻿using FnbIdentity.Core.Dtos.Events.Log;
-using FnbIdentity.Core.Dtos.Logs;
+﻿using FnbIdentity.Core.Dtos.Log;
 using FnbIdentity.Core.Mappers;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.Infrastructure.RepositoryIdentityServer.Interfaces;

@@ -2,20 +2,21 @@
 using FnbIdentity.Core.IdentityDto.Identity;
 using FnbIdentity.Core.IdentityMappers.Configuration;
 using FnbIdentity.Core.IdentityResources;
-using FnbIdentity.Core.IdentityServices.Interfaces;
 using FnbIdentity.Core.IdentityServices;
+using FnbIdentity.Core.IdentityServices.Interfaces;
+using FnbIdentity.Infrastructure.Configuration.Schema;
+using FnbIdentity.Infrastructure.Extentions;
 using FnbIdentity.Infrastructure.Interfaces;
-using FnbIdentity.Infrastructure.RepositoryIdentity.Interfaces;
 using FnbIdentity.Infrastructure.RepositoryIdentity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using FnbIdentity.Infrastructure.RepositoryIdentity.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IConfigurationProvider = AutoMapper.IConfigurationProvider;
 
 namespace FnbIdentity.Core.IdentityExtentions
 {
@@ -151,6 +152,7 @@ namespace FnbIdentity.Core.IdentityExtentions
             //Repositories
             services.AddTransient<IIdentityRepository<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>, IdentityRepository<TIdentityDbContext, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>>();
             services.AddTransient<IPersistedGrantAspNetIdentityRepository, PersistedGrantAspNetIdentityRepository<TIdentityDbContext, TPersistedGrantDbContext, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken>>();
+            services.AddTransient<IDashboardIdentityRepository, DashboardIdentityRepository<TUser, TKey, TRole>>();
 
             //Services
             services.AddTransient<IIdentityService<TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken,
@@ -160,6 +162,7 @@ namespace FnbIdentity.Core.IdentityExtentions
                     TUsersDto, TRolesDto, TUserRolesDto, TUserClaimsDto,
                     TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto, TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>>();
             services.AddTransient<IPersistedGrantAspNetIdentityService, PersistedGrantAspNetIdentityService>();
+            services.AddTransient<IDashboardIdentityService, DashboardIdentityService>();
 
             //Resources
             services.AddScoped<IIdentityServiceResources, IdentityServiceResources>();
@@ -175,6 +178,14 @@ namespace FnbIdentity.Core.IdentityExtentions
                 .AddProfilesType(profileTypes);
 
             return services;
+        }
+
+        public static void AddConfigureAdminAspNetIdentitySchema(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.ConfigureAdminAspNetIdentitySchema(options =>
+            {
+                configuration.GetSection(nameof(IdentityTableConfiguration)).Bind(options);
+            });
         }
     }
 }

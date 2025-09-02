@@ -14,10 +14,10 @@ namespace FnbIdentity.Core.Dtos.Configuration
 
         public int Id { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Required]
-        public string? Value { get; set; }
+        public string Value { get; set; }
 
         public DateTime? Expiration { get; set; }
 

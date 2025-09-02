@@ -1,6 +1,7 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using FnbIdentity.Core.Dtos.Common
+﻿@using FnbIdentity.Core.Dtos.Common
 @using FnbIdentity.UI.Configuration.Constants
+@using Microsoft.AspNetCore.Mvc.Localization
+
 @model FnbIdentity.Core.IdentityDto.Identity.Interfaces.IUsersDto
 @inject IViewLocalizer Localizer
 
@@ -65,7 +66,7 @@
                             <td class="align-middle">
                                 <img-gravatar email="@user.Email" class="gravatar-image img-thumbnail" />
                             </td>
-                            <td class="align-middle">@user.Id</td>
+                            <td class="align-middle"><code>@user.Id</code></td>
                             <td class="align-middle">@user.UserName</td>
                             <td class="align-middle">@user.Email</td>
                             <td class="align-middle">
@@ -81,6 +82,14 @@
 
 <div class="row">
     <div class="col-12">
-        @await Html.PartialAsync("Common/Pager", new Pager { Action = "RoleUsers", PageSize = Model.PageSize, TotalCount = Model.TotalCount, EnableSearch = true, Search = ViewBag.Search })
+        @await Html.PartialAsync("Common/Pager", new Pager
+        {
+            Action = "RoleUsers",
+                PageSize = Model.PageSize,
+                TotalCount = Model.TotalCount,
+                EnableSearch = true,
+                Search = ViewBag.Search,
+                AdditionalParameters = { { "roleId", roleId } }
+        })
     </div>
 </div>
