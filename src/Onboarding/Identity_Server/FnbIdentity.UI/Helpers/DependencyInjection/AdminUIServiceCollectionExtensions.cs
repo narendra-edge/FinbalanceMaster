@@ -1,9 +1,4 @@
-﻿
-using FnbIdentity.Core.Extentions;
-using FnbIdentity.Core.IdentityDto.Identity;
-using FnbIdentity.Core.IdentityExtentions;
-using FnbIdentity.Core.Shared.Helpers;
-using FnbIdentity.Infrastructure.Interfaces;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +6,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using FnbIdentity.Core.Extentions;
+using FnbIdentity.Core.IdentityDto.Identity;
+using FnbIdentity.Core.IdentityExtentions;
+using FnbIdentity.Core.Shared.Helpers;
+using FnbIdentity.Infrastructure.Interfaces;
 using static FnbIdentity.UI.Helpers.StartupHelpers;
 
 
@@ -113,9 +112,10 @@ namespace FnbIdentity.UI.Helpers.DependencyInjection
 			services.AddSingleton(options.Admin);
 			services.AddSingleton(options.IdentityServerData);
 			services.AddSingleton(options.IdentityData);
+            services.AddSingleton(options.IdentityTableConfiguration);
 
-			// Add DbContexts for Asp.Net Core Identity, Logging and IdentityServer - Configuration store and Operational store
-			if (!options.Testing.IsStaging)
+            // Add DbContexts for Asp.Net Core Identity, Logging and IdentityServer - Configuration store and Operational store
+            if (!options.Testing.IsStaging)
 			{
 				services.RegisterDbContexts<TIdentityServerDbContext,
 					TPersistedGrantDbContext, TLogDbContext, TIdentityDbContext,

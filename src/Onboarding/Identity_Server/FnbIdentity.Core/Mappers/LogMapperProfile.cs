@@ -2,11 +2,6 @@
 using FnbIdentity.Core.Dtos.Log;
 using FnbIdentity.Infrastructure.Common;
 using FnbIdentity.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FnbIdentity.Core.Mappers
 {

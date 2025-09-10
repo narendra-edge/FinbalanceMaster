@@ -1,41 +1,41 @@
-﻿using FnbIdentity.Infrastructure.Configuration;
-using FnbIdentity.Infrastructure.Interfaces;
-using FnbIdentity.Infrastructure.Extentions;
-using FnbIdentity.UI.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Globalization;
+using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
-using FnbIdentity.UI.ExceptionHandling;
-using FnbIdentity.Core.IdentityDto.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using FnbIdentity.UI.Helpers.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
-using FnbIdentity.UI.Configuration.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor;
-using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using FnbIdentity.Core.Shared.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using FnbIdentity.UI.Configuration.Constants;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using FnbIdentity.Infrastructure.Helpers;
 using Microsoft.AspNetCore.HttpOverrides;
+using FnbIdentity.UI.ExceptionHandling;
+using FnbIdentity.Core.IdentityDto.Identity;
+using FnbIdentity.Infrastructure.Configuration;
+using FnbIdentity.Infrastructure.Interfaces;
+using FnbIdentity.Infrastructure.Extentions;
+using FnbIdentity.UI.Configuration;
+using FnbIdentity.UI.Helpers.Localization;
+using FnbIdentity.UI.Configuration.ApplicationParts;
+using FnbIdentity.Core.Shared.Authentication;
+using FnbIdentity.UI.Configuration.Constants;
+using FnbIdentity.Infrastructure.Helpers;
 using FnbIdentity.UI.Middlewares;
+
 
 namespace FnbIdentity.UI.Helpers
 {
@@ -94,15 +94,15 @@ namespace FnbIdentity.UI.Helpers
 			switch (databaseProvider.ProviderType)
 			{
 				case DatabaseProviderType.SqlServer:
-					services.RegisterSqlServerDbContexts<TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TIdentityDbContext, TDataProtectionDbContext>(connectionStrings, databaseMigrations);
+					services.RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TDataProtectionDbContext>(connectionStrings, databaseMigrations);
 					break;
-				//case DatabaseProviderType.PostgreSQL:
-				//	services.RegisterNpgSqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
-				//	break;
-				//case DatabaseProviderType.MySql:
-				//	services.RegisterMySqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
-				//	break;
-				default:
+                //case DatabaseProviderType.PostgreSQL:
+                //	services.RegisterNpgSqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
+                //	break;
+                //case DatabaseProviderType.MySql:
+                //	services.RegisterMySqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
+                //	break;
+                default:
 					throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
 			}
 		}
@@ -411,8 +411,7 @@ namespace FnbIdentity.UI.Helpers
 				.AddDbContextCheck<TIdentityDbContext>("IdentityDbContext")
 				.AddDbContextCheck<TLogDbContext>("LogDbContext")
 				.AddDbContextCheck<TDataProtectionDbContext>("DataProtectionDbContext")
-
-				.AddIdentityServer(new Uri(identityServerUri), "Identity Server");
+				.AddOpenIdConnectServer(oidcSvrUri: new Uri(identityServerUri), name: "Identity Server");
 
 			var serviceProvider = healthChecksBuilder.Services.BuildServiceProvider();
 			var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();

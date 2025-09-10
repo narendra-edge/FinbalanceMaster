@@ -7,6 +7,13 @@
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\dist\**" />
+    <Content Remove="wwwroot\dist\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
+    <None Remove="wwwroot\dist\**" />
+  </ItemGroup>
+
   
 
   <ItemGroup>
@@ -78,11 +85,11 @@
         <None Include="Areas\AdminUI\Views\Identity\UserRolesDelete.cshtml" />
         <None Include="Areas\AdminUI\Views\Identity\Users.cshtml" />
         <None Include="Areas\AdminUI\Views\Identity\User\Section\Label.cshtml" />
-		<None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProvider\Section\Label.cshtml" />
-		<None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProvider.cshtml" />
-		<None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProviderDelete.cshtml" />
-		<None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProviders.cshtml" />
-        <None Include="Areas\AdminUI\Views\Log\AuditLog.cshtml" />
+		    <None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProvider\Section\Label.cshtml" />
+		    <None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProvider.cshtml" />
+		    <None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProviderDelete.cshtml" />
+		    <None Include="Areas\AdminUI\Views\IdentityProvider\IdentityProviders.cshtml" />
+        
         <None Include="Areas\AdminUI\Views\Log\ErrorsLog.cshtml" />
         <None Include="Areas\AdminUI\Views\Shared\Common\ApplicationVersion.cshtml" />
         <None Include="Areas\AdminUI\Views\Shared\Common\ErrorPage.cshtml" />
@@ -97,16 +104,16 @@
         <None Include="Areas\AdminUI\Views\Shared\Error.cshtml" />
         <None Include="Areas\AdminUI\Views\Shared\_Layout.cshtml" />
         <None Include="Areas\AdminUI\Views\_ViewImports.cshtml" />
-        <None Include="Areas\AdminUI\Views\_ViewStart.cshtml" />
+        <None Include="Areas\AdminUI\Views\_ViewStart.cshtml" />    
     </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.OpenIdConnectServer" Version="8.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="8.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.OpenIdConnectServer" Version="9.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.19" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.19" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.19" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
   </ItemGroup>
 

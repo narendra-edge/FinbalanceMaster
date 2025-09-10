@@ -21,9 +21,9 @@ namespace FnbIdentity.Core.Services
             // AuditLogService = auditLogService;
         }
 
-        public async Task<DashboardDto> GetDashboardIdentityServerAsync(int auditLogsLastNumberOfDays, CancellationToken cancellationToken = default)
+        public async Task<DashboardDto> GetDashboardIdentityServerAsync( CancellationToken cancellationToken = default)
         {
-            var dashBoardData = await DashboardRepository.GetDashboardIdentityServerAsync(auditLogsLastNumberOfDays, cancellationToken);
+           var dashBoardData = await DashboardRepository.GetDashboardIdentityServerAsync(cancellationToken);
             //  var auditLogs = await AuditLogService.GetDashboardAuditLogsAsync(auditLogsLastNumberOfDays, cancellationToken);
             //  var auditLogsAverage = await AuditLogService.GetDashboardAuditLogsAverageAsync(auditLogsLastNumberOfDays, cancellationToken);
 

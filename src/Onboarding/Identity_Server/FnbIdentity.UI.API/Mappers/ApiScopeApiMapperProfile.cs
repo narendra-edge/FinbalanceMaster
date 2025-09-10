@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using FnbIdentity.Core.Dtos.Configuration;
 using FnbIdentity.UI.API.Dtos.AddScopes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FnbIdentity.UI.API.Mappers
 {

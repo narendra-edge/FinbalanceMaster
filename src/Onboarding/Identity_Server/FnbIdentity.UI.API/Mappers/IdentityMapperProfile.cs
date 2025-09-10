@@ -2,11 +2,7 @@
 using FnbIdentity.Core.IdentityDto.Identity;
 using FnbIdentity.UI.API.Dtos.Roles;
 using FnbIdentity.UI.API.Dtos.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FnbIdentity.UI.API.Mappers
 {

@@ -1,6 +1,7 @@
-﻿using FnbIdentity.Core.IdentityDto.DashboardIdentity;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+
+using FnbIdentity.Core.IdentityDto.DashboardIdentity;
 
 namespace FnbIdentity.Core.IdentityServices.Interfaces
 {

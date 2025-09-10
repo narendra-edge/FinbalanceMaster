@@ -1,4 +1,7 @@
-﻿<div class="row">
+﻿﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model FnbIdentity.Core.Dtos.Configuration.ClientDto
+@inject IViewLocalizer Localizer
+<div class="row">
 	<div class="col-md-12">
 		<h3>@Localizer["Title"]</h3>
 		<input type="hidden" asp-for="Id" />

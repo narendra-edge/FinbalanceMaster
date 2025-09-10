@@ -1,16 +1,13 @@
-﻿using FnbIdentity.Core.ExceptionHandling;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FnbIdentity.UI.Helpers;
+using FnbIdentity.Core.ExceptionHandling;
 
 namespace FnbIdentity.UI.ExceptionHandling
 {

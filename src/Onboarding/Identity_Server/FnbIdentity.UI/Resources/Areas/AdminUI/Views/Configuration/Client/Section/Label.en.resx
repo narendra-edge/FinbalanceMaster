@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="RequirePushedAuthorization_Label" xml:space="preserve">
+    <value>Require Pushed Authorization</value>
+  </data>
   <data name="AbsoluteRefreshTokenLifetime_Info" xml:space="preserve">
     <value>Maximum lifetime of a refresh token in seconds. Defaults to 2592000 seconds / 30 days</value>
   </data>
@@ -142,7 +145,7 @@
     <value>Allow Access Token Via Browser</value>
   </data>
   <data name="AllowOfflineAccess_Info" xml:space="preserve">
-    <value>Specifies whether this client can request refresh tokens (be requesting the offline_access scope)</value>
+    <value>Specifies whether this client can request refresh tokens (by requesting the offline_access scope)</value>
   </data>
   <data name="AllowOfflineAccess_Label" xml:space="preserve">
     <value>Allow Offline Access</value>
@@ -521,8 +524,5 @@ OneTime the refresh token handle will be updated when refreshing tokens</value>
   </data>
   <data name="RequirePushedAuthorization_Info" xml:space="preserve">
     <value>Controls if this client requires PAR. PAR is required if either the global configuration is enabled or if the client’s flag is enabled (this can’t be used to opt out of the global configuration). This defaults to false, which means the global configuration will be used.</value>
-  </data>
-  <data name="RequirePushedAuthorization_Label" xml:space="preserve">
-    <value>Require Pushed Authorization</value>
   </data>
 </root>

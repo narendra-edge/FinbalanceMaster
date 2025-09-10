@@ -1,4 +1,8 @@
-﻿using FnbIdentity.Core.Dtos.Common;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using FnbIdentity.Core.Dtos.Common;
 using FnbIdentity.Core.Dtos.Configuration;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.UI.API.Configuration.Constants;
@@ -6,13 +10,6 @@ using FnbIdentity.UI.API.Dtos.Clients;
 using FnbIdentity.UI.API.ExceptionHandeling;
 using FnbIdentity.UI.API.Mappers;
 using FnbIdentity.UI.API.Resources;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FnbIdentity.UI.API.Controllers
 {

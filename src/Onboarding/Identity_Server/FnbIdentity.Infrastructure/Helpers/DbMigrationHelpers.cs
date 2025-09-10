@@ -1,22 +1,17 @@
 ﻿using Duende.IdentityServer.Models;
+using Duende.IdentityModel;
 using Duende.IdentityServer.EntityFramework.Mappers;
-using FnbIdentity.Infrastructure.Configuration;
-using FnbIdentity.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Duende.IdentityModel;
+using FnbIdentity.Infrastructure.Interfaces;
+using FnbIdentity.Infrastructure.Configuration;
 
 namespace FnbIdentity.Infrastructure.Helpers
 {
-    public class DbMigrationHelpers
+    public static class DbMigrationHelpers
     {
         /// <summary>
         /// Generate migrations before running this method, you can use these steps bellow:

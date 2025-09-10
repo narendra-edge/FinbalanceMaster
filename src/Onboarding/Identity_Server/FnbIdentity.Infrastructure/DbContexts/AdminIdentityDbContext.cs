@@ -1,8 +1,7 @@
-﻿using FnbIdentity.Infrastructure.Configuration.Schema;
-using FnbIdentity.Infrastructure.Constants;
-using FnbIdentity.Infrastructure.Entities.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using FnbIdentity.Infrastructure.Configuration.Schema;
+using FnbIdentity.Infrastructure.Entities.Identity;
 
 
 namespace FnbIdentity.Infrastructure.DbContexts

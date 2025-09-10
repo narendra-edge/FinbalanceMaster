@@ -1,13 +1,7 @@
-﻿using FnbIdentity.UI.API.Configuration.Constants;
-using FnbIdentity.UI.API.ExceptionHandeling;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using FnbIdentity.UI.API.Configuration.Constants;
+using FnbIdentity.UI.API.ExceptionHandeling;
 namespace FnbIdentity.UI.API.Controllers
 {
     [Route("api/[controller]")]

@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "aspNetCoreToOpenApi": {
-      "project": "FnbIdentity.csproj",
+      "project": "FnbIdentity.Api.csproj",
       "msBuildProjectExtensionsPath": null,
       "configuration": null,
       "runtime": "",

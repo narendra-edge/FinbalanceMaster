@@ -1,16 +1,12 @@
-﻿using FnbIdentity.Core.Resources;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using FnbIdentity.Core.Resources;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.Core.Services;
 using FnbIdentity.Infrastructure.Interfaces;
 using FnbIdentity.Infrastructure.RepositoryIdentityServer.Interfaces;
 using FnbIdentity.Infrastructure.RepositoryIdentityServer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FnbIdentity.Core.Extentions
 {
@@ -37,7 +33,9 @@ namespace FnbIdentity.Core.Extentions
             services.AddTransient<IIdentityProviderRepository, IdentityProviderRepository<TConfigurationDbContext>>();
             services.AddTransient<IKeyRepository, KeyRepository<TPersistedGrantDbContext>>();
             services.AddTransient<ILogRepository, LogRepository<TLogDbContext>>();
-
+            services.AddTransient<IDashboardRepository, DashboardRepository<TConfigurationDbContext>>();
+            services.AddTransient<IConfigurationIssuesRepository, ConfigurationIssuesRepository<TConfigurationDbContext>>();
+            
             //Services
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IApiResourceService, ApiResourceService>();
@@ -47,6 +45,9 @@ namespace FnbIdentity.Core.Extentions
             services.AddTransient<IPersistedGrantService, PersistedGrantService>();
             services.AddTransient<IKeyService, KeyService>();
             services.AddTransient<ILogService, LogService>();
+            services.AddTransient<IDashboardService, DashboardService>();
+            services.AddTransient<IConfigurationIssuesService, ConfigurationIssuesService>();
+
 
             //Resources
             services.AddScoped<IApiResourceServiceResources, ApiResourceServiceResources>();

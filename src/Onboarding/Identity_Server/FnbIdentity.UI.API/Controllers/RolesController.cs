@@ -1,4 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using FnbIdentity.Core.IdentityDto.Identity;
 using FnbIdentity.Core.IdentityServices.Interfaces;
 using FnbIdentity.UI.API.Configuration.Constants;
@@ -6,14 +12,6 @@ using FnbIdentity.UI.API.Dtos.Roles;
 using FnbIdentity.UI.API.ExceptionHandeling;
 using FnbIdentity.UI.API.Helpers.Localization;
 using FnbIdentity.UI.API.Resources;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FnbIdentity.UI.API.Controllers
 {

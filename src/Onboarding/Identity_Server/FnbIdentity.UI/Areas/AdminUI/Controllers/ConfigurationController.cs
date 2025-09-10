@@ -1,15 +1,15 @@
-﻿using FnbIdentity.Core.Dtos.Configuration;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using FnbIdentity.Core.Dtos.Configuration;
 using FnbIdentity.Core.Helpers;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.UI.Configuration.Constants;
 using FnbIdentity.UI.ExceptionHandling;
 using FnbIdentity.UI.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FnbIdentity.UI.Areas.AdminUI.Controllers
 {

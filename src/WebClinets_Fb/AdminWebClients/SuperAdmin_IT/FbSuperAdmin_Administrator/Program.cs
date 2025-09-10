@@ -73,8 +73,8 @@ namespace FbSuperAdmin_Administrator
                 .Get<DatabaseMigrationsConfiguration>();
 
             return await DbMigrationHelpers 
-                .ApplyDbMigrationsWithDataSeedAsync< AdminIdentityDbContext, IdentityServerPersistedGrantDbContext,
-                                   AdminLogDbContext, IdentityServerConfigurationDbContext, IdentityServerDataProtectionDbContext,
+                .ApplyDbMigrationsWithDataSeedAsync<IdentityServerConfigurationDbContext, AdminIdentityDbContext, IdentityServerPersistedGrantDbContext,
+                                   AdminLogDbContext,  IdentityServerDataProtectionDbContext,
                                    UserIdentity, UserIdentityRole>(host,
                     applyDbMigrationWithDataSeedFromProgramArguments, seedConfiguration, databaseMigrationsConfiguration);
         }

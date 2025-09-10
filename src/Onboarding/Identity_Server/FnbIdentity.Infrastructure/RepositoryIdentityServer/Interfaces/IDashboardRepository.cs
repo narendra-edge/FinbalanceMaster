@@ -9,7 +9,7 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer.Interfaces
 {
     public interface IDashboardRepository
     {
-        Task<DashboardDataView> GetDashboardIdentityServerAsync(int auditLogsLastNumberOfDays,
+        Task<DashboardDataView> GetDashboardIdentityServerAsync(
         CancellationToken cancellationToken = default);
     }
 }

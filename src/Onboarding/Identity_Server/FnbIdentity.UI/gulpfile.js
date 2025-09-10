@@ -1,32 +1,27 @@
-﻿import gulp from 'gulp';
-import *as del from 'del';
-import concat from 'gulp-concat';
-import uglify from 'gulp-uglify';
-import gulpSass from 'gulp-sass';
-import nodeSass from "node-sass";
-import minifyCSS from 'gulp-clean-css';
+var gulp = require('gulp');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var saas = require('gulp-sass')(require('sass'));
+var minifyCss = require('gulp-clean-css');
+var del = require('del');
 
 
-const sass = gulpSass(nodeSass);
-const paths = {
-    styles: {
-        src: [
-            './node_modules/bootstrap/dist/css/bootstrap.css',
-            './node_modules/toastr/build/toastr.css',
-            './node_modules/open-iconic/font/css/open-iconic-bootstrap.css',
-            './node_modules/font-awesome/css/font-awesome.css',
-            './node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css',
-            './node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
-            './Styles/controls/jsontree.css'
-        ],
-        dest: 'wwwroot/dist/css'
-    },
-    scripts: {
-        src: [
+var distFolder = 'wwwroot/dist/';
+var jsFolder = `${distFolder}js/`;
+var cssFolder = `${distFolder}css/`;
+var cssThemesFolder = `${cssFolder}themes/`;
+
+function processClean() {
+    return del(`${distFolder}**`, {force: true});
+}
+
+function processScripts() {
+    return gulp
+        .src([
             './node_modules/jquery/dist/jquery.js',
             './node_modules/jquery-validation/dist/jquery.validate.js',
             './node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js',
-            './node_modules/popper.js/dist/umd/popper.js',
+            './node_modules/poppwe.js/dist/umd/popper,js',
             './node_modules/bootstrap/dist/js/bootstrap.js',
             './node_modules/holderjs/holder.js',
             './node_modules/knockout/build/output/knockout-latest.js',
@@ -50,80 +45,77 @@ const paths = {
             './Scripts/App/helpers/jsontree.min.js',
             './Scripts/App/helpers/DateTimeHelpers.js',
             './Scripts/App/pages/ErrorsLog.js',
-            './Scripts/App/pages/AuditLog.js',
-            './Scripts/App/pages/Secrets.js',
+            './Scripts/App/pages/CryptoUtils.js',
             './Scripts/App/pages/IdentityProviders.js',
             './Scripts/App/components/DatePicker.js'
-        ],
-        dest: 'wwwroot/dist/js'
-    },
-    fonts: {
-        src: [
-            './node_modules/font-awesome/fonts/**',
-            './node_modules/open-iconic/font/fonts/**'
-        ],
-        dest: 'wwwroot/dist/fonts'
-    },
-    themes: {
-        src: 'node_modules/bootswatch/dist/**/bootstrap.min.css',
-        dest: 'wwwroot/dist/css/theme'
-    }
-};
+    ])
+    .pipe(concat('bundle.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(jsFolder));
+}
 
-gulp.task('scripts', () => {
+function processFonts() {
     return gulp
-        .src(paths.scripts.src)
-        .pipe(concat('bundle.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(paths.scripts.dest));
-});
+        .src(['./node_modules/font-awesome/fonts/**', './node_modules/open-iconic/font/fonts/**'])
+        .pipe(gulp.dest(`${distFolder}fonts/`));
 
-gulp.task('fonts', () => {
-    return gulp
-        .src(paths.fonts.src)
-        .pipe(gulp.dest(paths.fonts.dest));
-});
+}
 
-gulp.task('sass', () => {
+
+function processSaas() {
     return gulp
         .src('Styles/web.scss')
-        .pipe(sass())
-        .on('error', sass.logError)
-        .pipe(gulp.dest(paths.styles.dest));
-});
-gulp.task('sassMin', () => {
+        .pipe(saas())
+        .on('error', saas.logError)
+        .pipe(gulp.dest(cssFolder));
+
+}
+ function processSassMin() {
     return gulp
         .src('Styles/web.scss')
         .pipe(sass())
         .on('error', sass.logError)
         .pipe(minifyCSS())
         .pipe(concat('web.min.css'))
-        .pipe(gulp.dest(paths.styles.dest));
-});
-
-gulp.task('styles', () => {
+        .pipe(gulp.dest(cssFolder));
+}
+ function processStyles() {
     return gulp
-        .src(paths.styles.src)
+        .src([
+            './node_modules/bootstrap/dist/css/bootstrap.css',
+            './node_modules/toastr/build/toastr.css',
+            './node_modules/open-iconic/font/css/open-iconic-bootstrap.css',
+            './node_modules/font-awesome/css/font-awesome.css',
+            './node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css',
+            './node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
+            './Styles/controls/jsontree.css'
+        ])
         .pipe(minifyCSS())
         .pipe(concat('bundle.min.css'))
-        .pipe(gulp.dest(paths.styles.dest));
-});
+        .pipe(gulp.dest(cssFolder));
+}
 
-gulp.task('themes', () => {
+function processTheme() {
     return gulp
-        .src(paths.themes.src)
-        .pipe(gulp.dest(paths.themes.dest));
-});
+        .src('node_modules/bootswatch/dist/**/bootstrap.min.css')
+        .pipe(gulp.dest(cssThemeFolder));
+}
 
-gulp.task('watch', () => {
-    gulp.watch(paths.styles.src, gulp.series('styles'));
-    gulp.watch('src/styles/**/*.scss', gulp.series('sass'));
-    gulp.watch(paths.fonts.src, gulp.series('fonts'));
-    gulp.watch('Styles/**/*.scss');
-});
+var buildStyles = gulp.series(processFonts, processStyles, processTheme, processSaas, processSassMin);
+var build = gulp.parallel(buildStyles, processScripts);
 
-gulp.task('default', gulp.parallel('sass', 'scripts', 'styles', 'fonts', 'watch'));
+gulp.tasks('clean', processClean)
+gulp.task('styles', buildStyles);
+gulp.task('sass', processSass);
+gulp.task('sass:min', processSassMin);
+gulp.task('fonts', processFonts);
+gulp.task('scripts', processScripts);
+gulp.task('build', build);
+gulp.task('default', build);
 
-gulp.task('clean', () => {
-    return del([paths.styles.dest, paths.scripts.dest, paths.fonts.dest]);
-});
+//watch
+function processWatch() {
+    gulp.watch(['Styles/**/*.scss'], buildStyles);
+}
+gulp.task('watch', processWatch);
+exports.default = processWatch;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FnbIdentity.UI.API.Helpers
 {
-    public class UrlHelpers
+    public static class UrlHelpers
     {
         public static string QueryStringSafeHash(string hash)
         {

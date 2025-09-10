@@ -1,8 +1,8 @@
-﻿using FnbIdentity.Core.Dtos.Common;
-using FnbIdentity.Infrastructure.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using FnbIdentity.Core.Dtos.Common;
+using FnbIdentity.Infrastructure.Helpers;
 
 
 namespace FnbIdentity.Core.Dtos.Configuration

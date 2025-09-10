@@ -1,11 +1,4 @@
-﻿using FnbIdentity.Api.Configuration;
-using FnbIdentity.Core.Shared.Dtos;
-using FnbIdentity.Core.Shared.Dtos.Identity;
-using FnbIdentity.Core.Shared.Helpers;
-using FnbIdentity.Infrastructure.DbContexts;
-using FnbIdentity.Infrastructure.Entities.Identity;
-using FnbIdentity.UI.API.Configuration;
-using FnbIdentity.UI.API.Helpers;
+﻿using System.IdentityModel.Tokens.Jwt;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -14,7 +7,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSwag.AspNetCore;
-using System.IdentityModel.Tokens.Jwt;
+using FnbIdentity.Api.Configuration;
+using FnbIdentity.Core.Shared.Dtos;
+using FnbIdentity.Core.Shared.Dtos.Identity;
+using FnbIdentity.Core.Shared.Helpers;
+using FnbIdentity.Infrastructure.DbContexts;
+using FnbIdentity.Infrastructure.Entities.Identity;
+using FnbIdentity.UI.API.Configuration;
+using FnbIdentity.UI.API.Helpers;
 
 namespace FnbIdentity.Api
 {
@@ -35,16 +35,17 @@ namespace FnbIdentity.Api
         {
             var adminApiConfiguration = Configuration.GetSection(nameof(AdminApiConfiguration)).Get<AdminApiConfiguration>();
             services.AddSingleton(adminApiConfiguration);
-
+            // Add this using directive at the top of the file if the extension method exists in your solution
+            // using FnbIdentity.UI.API.Helpers; // or the correct namespace where AddEmailSenders is defined
             // Add DbContexts
             RegisterDbContexts(services);
 
-            services.AddDataProtection<IdentityServerDataProtectionDbContext>(Configuration);
+
 
             // Add email senders which is currently setup for SendGrid and SMTP
             services.AddEmailSenders(Configuration);
 
-           
+
 
             // Add authentication services
             RegisterAuthentication(services);

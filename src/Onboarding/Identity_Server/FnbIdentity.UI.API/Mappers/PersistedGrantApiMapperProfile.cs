@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using FnbIdentity.Core.Dtos.Grants;
 using FnbIdentity.UI.API.Dtos.PersitedGrants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FnbIdentity.UI.API.Mappers
 {

@@ -20,7 +20,7 @@ namespace FnbIdentity.Infrastructure.RepositoryIdentityServer
             DbContext = dbContext;
         }
 
-        public async Task<DashboardDataView> GetDashboardIdentityServerAsync(int auditLogsLastNumberOfDays, CancellationToken cancellationToken = default)
+        public async Task<DashboardDataView> GetDashboardIdentityServerAsync(CancellationToken cancellationToken = default)
         {
             return new DashboardDataView
             {

@@ -1,6 +1,4 @@
-﻿
-
-using FnbIdentity.Infrastructure.Configuration.Identity;
+﻿using FnbIdentity.Infrastructure.Configuration.Identity;
 
 namespace FnbIdentity.Infrastructure.Configuration
 {

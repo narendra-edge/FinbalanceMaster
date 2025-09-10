@@ -1,5 +1,16 @@
-﻿using Duende.IdentityModel;
-
+﻿using System;
+using System.Collections.Generic;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using FnbIdentity.Core.Extentions;
 using FnbIdentity.Core.IdentityDto.Identity;
 using FnbIdentity.Core.IdentityExtentions;
@@ -15,21 +26,8 @@ using FnbIdentity.UI.API.ExceptionHandeling;
 using FnbIdentity.UI.API.Helpers.Localization;
 using FnbIdentity.UI.API.Mappers;
 using FnbIdentity.UI.API.Resources;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
 
 namespace FnbIdentity.UI.API.Helpers
 {
@@ -129,20 +127,22 @@ namespace FnbIdentity.UI.API.Helpers
                 switch (databaseProvider.ProviderType)
                 {
                     case DatabaseProviderType.SqlServer:
-                        services.RegisterSqlServerDbContexts<TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TIdentityDbContext, TDataProtectionDbContext>(connectionStrings, databaseMigrations);
+                        services.RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TDataProtectionDbContext>(connectionStrings, databaseMigrations);
                         break;
-                    //case DatabaseProviderType.PostgreSQL:
-                    //    services.RegisterNpgSqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
-                    //    break;
-                    //case DatabaseProviderType.MySql:
-                    //    services.RegisterMySqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
-                    //    break;
-                    default:
+
+                //case DatabaseProviderType.PostgreSQL:
+                //    services.RegisterNpgSqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
+                //    break;
+                //case DatabaseProviderType.MySql:
+                //    services.RegisterMySqlDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext, TAuditLoggingDbContext, TDataProtectionDbContext, TAuditLog>(connectionStrings, databaseMigrations);
+                //    break;
+                default:
                         throw new ArgumentOutOfRangeException(nameof(databaseProvider.ProviderType), $@"The value needs to be one of {string.Join(", ", Enum.GetNames(typeof(DatabaseProviderType)))}.");
                 }
             }
             /// <summary>
             /// Add authentication middleware for an API
+            /// 
             /// </summary>
             /// <typeparam name="TIdentityDbContext">DbContext for an access to Identity</typeparam>
             /// <typeparam name="TUser">Entity with User</typeparam>
@@ -307,8 +307,8 @@ namespace FnbIdentity.UI.API.Helpers
             //where TAdminAuditLogDbContext : IAuditLoggingDbContext<AuditLog>, IAuditLoggingDbContext<TAuditLog>
             //where TAuditLog : AuditLog, new()
         {
-            services.AddDataProtection<TIdentityServerDataProtectionDbContext>(configuration);
 
+            services.AddDataProtection<TIdentityServerDataProtectionDbContext>(configuration);
             services.AddScoped<ControllerExceptionFilterAttribute>();
             services.AddScoped<IApiErrorResources, ApiErrorResources>();
 

@@ -1,15 +1,16 @@
-﻿using FnbIdentity.Core.Dtos.Events.IdentityProvider;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FnbIdentity.Core.Dtos.Events.IdentityProvider;
 using FnbIdentity.Core.Dtos.IdentityProviders;
 using FnbIdentity.Core.ExceptionHandling;
 using FnbIdentity.Core.Mappers;
 using FnbIdentity.Core.Resources;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.Infrastructure.RepositoryIdentityServer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FnbIdentity.Core.Services
 {
@@ -21,10 +22,11 @@ namespace FnbIdentity.Core.Services
 
         public IdentityProviderService(IIdentityProviderRepository identityProviderRepository,
             IIdentityProviderServiceResources identityProviderServiceResources)
+          //  IAuditEventLogger auditEventLogger)
         {
             IdentityProviderRepository = identityProviderRepository;
             IdentityProviderServiceResources = identityProviderServiceResources;
-            //AuditEventLogger = auditEventLogger;
+           // AuditEventLogger = auditEventLogger;
         }
 
         public virtual async Task<IdentityProvidersDto> GetIdentityProvidersAsync(string search, int page = 1, int pageSize = 10)
@@ -44,7 +46,7 @@ namespace FnbIdentity.Core.Services
 
             var identityProviderDto = identityProvider.ToModel();
 
-           // await AuditEventLogger.LogEventAsync(new IdentityProviderRequestedEvent(identityProviderDto));
+            //await AuditEventLogger.LogEventAsync(new IdentityProviderRequestedEvent(identityProviderDto));
 
             return identityProviderDto;
         }
@@ -68,7 +70,7 @@ namespace FnbIdentity.Core.Services
 
             var saved = await IdentityProviderRepository.AddIdentityProviderAsync(entity);
 
-          //  await AuditEventLogger.LogEventAsync(new IdentityProviderAddedEvent(identityProvider));
+            //await AuditEventLogger.LogEventAsync(new IdentityProviderAddedEvent(identityProvider));
 
             return saved;
         }
@@ -83,16 +85,16 @@ namespace FnbIdentity.Core.Services
 
             var originalIdentityProvider = await GetIdentityProviderAsync(identityProvider.Id);
 
-            //if (identityProvider.Properties == null)
-            //{
-            //    identityProvider.Properties = new List<IdentityProviderPropertyDto>(originalIdentityProvider.Properties);
-            //}
+            if (identityProvider.Properties == null)
+            {
+                identityProvider.Properties = new Dictionary<int, IdentityProviderPropertyDto>();
+            }
 
             var entity = identityProvider.ToEntity();
 
             var updated = await IdentityProviderRepository.UpdateIdentityProviderAsync(entity);
 
-           // await AuditEventLogger.LogEventAsync(new IdentityProviderUpdatedEvent(originalIdentityProvider, identityProvider));
+            //await AuditEventLogger.LogEventAsync(new IdentityProviderUpdatedEvent(originalIdentityProvider, identityProvider));
 
             return updated;
         }
@@ -103,7 +105,7 @@ namespace FnbIdentity.Core.Services
 
             var deleted = await IdentityProviderRepository.DeleteIdentityProviderAsync(entity);
 
-            //await AuditEventLogger.LogEventAsync(new IdentityProviderDeletedEvent(identityProvider));
+           // await AuditEventLogger.LogEventAsync(new IdentityProviderDeletedEvent(identityProvider));
 
             return deleted;
         }

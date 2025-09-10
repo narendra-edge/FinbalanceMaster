@@ -1,19 +1,18 @@
-﻿using Duende.IdentityServer.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Duende.IdentityServer.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using FnbIdentity.Core.Dtos.Common;
 using FnbIdentity.Core.IdentityDto.Identity;
 using FnbIdentity.Core.IdentityServices.Interfaces;
 using FnbIdentity.UI.Configuration.Constants;
 using FnbIdentity.UI.ExceptionHandling;
 using FnbIdentity.UI.Helpers.Localization;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FnbIdentity.UI.Areas.AdminUI.Controllers
 {

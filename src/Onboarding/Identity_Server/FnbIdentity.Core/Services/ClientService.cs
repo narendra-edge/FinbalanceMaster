@@ -1,4 +1,7 @@
-﻿using Duende.IdentityServer.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Duende.IdentityServer.Models;
 using FnbIdentity.Core.Dtos.Common;
 using FnbIdentity.Core.Dtos.Configuration;
 using FnbIdentity.Core.Dtos.Enums;
@@ -9,9 +12,7 @@ using FnbIdentity.Core.Resources;
 using FnbIdentity.Core.Services.Interfaces;
 using FnbIdentity.Infrastructure.Helpers;
 using FnbIdentity.Infrastructure.RepositoryIdentityServer.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace FnbIdentity.Core.Services
 {

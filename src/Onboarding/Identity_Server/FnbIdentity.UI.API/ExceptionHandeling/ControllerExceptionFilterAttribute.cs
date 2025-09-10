@@ -1,9 +1,9 @@
-﻿using FnbIdentity.Core.ExceptionHandling;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Diagnostics;
-using System.Linq;
+using FnbIdentity.Core.ExceptionHandling;
 
 
 namespace FnbIdentity.UI.API.ExceptionHandeling

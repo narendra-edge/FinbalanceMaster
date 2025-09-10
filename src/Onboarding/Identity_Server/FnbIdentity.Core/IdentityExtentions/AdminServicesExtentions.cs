@@ -1,4 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using FnbIdentity.Core.IdentityDto.Identity;
 using FnbIdentity.Core.IdentityMappers.Configuration;
 using FnbIdentity.Core.IdentityResources;
@@ -9,13 +16,6 @@ using FnbIdentity.Infrastructure.Extentions;
 using FnbIdentity.Infrastructure.Interfaces;
 using FnbIdentity.Infrastructure.RepositoryIdentity;
 using FnbIdentity.Infrastructure.RepositoryIdentity.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using IConfigurationProvider = AutoMapper.IConfigurationProvider;
 
 namespace FnbIdentity.Core.IdentityExtentions

@@ -1,16 +1,12 @@
-﻿
-using FnbIdentity.UI.Configuration.Constants;
+﻿using System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FnbIdentity.UI.Configuration;
 using FnbIdentity.Core.Shared.Configuration.Common;
 using FnbIdentity.Infrastructure.Configuration;
-using Microsoft.Extensions.Configuration;
+using FnbIdentity.Infrastructure.Configuration.Schema;
+using FnbIdentity.UI.Configuration;
+using FnbIdentity.UI.Configuration.Constants;
 
 namespace FnbIdentity.UI.Helpers.DependencyInjection
 {
@@ -91,11 +87,13 @@ namespace FnbIdentity.UI.Helpers.DependencyInjection
 		/// </summary>
 		public Func<IServiceCollection, IHealthChecksBuilder> HealthChecksBuilderFactory { get; set; }
 
-		/// <summary>
-		/// Applies configuration parsed from an appsettings file into these options.
-		/// </summary>
-		/// <param name="configuration">The configuration to bind into this instance.</param>
-		public void BindConfiguration(IConfiguration configuration)
+        public IdentityTableConfiguration IdentityTableConfiguration { get; set; } = new IdentityTableConfiguration();
+
+        /// <summary>
+        /// Applies configuration parsed from an appsettings file into these options.
+        /// </summary>
+        /// <param name="configuration">The configuration to bind into this instance.</param>
+        public void BindConfiguration(IConfiguration configuration)
 		{
 			configuration.GetSection(nameof(TestingConfiguration)).Bind(Testing);
 			configuration.GetSection(ConfigurationConsts.ConnectionStringsKey).Bind(ConnectionStrings);
@@ -111,6 +109,7 @@ namespace FnbIdentity.UI.Helpers.DependencyInjection
 			configuration.GetSection(nameof(HttpConfiguration)).Bind(Http);
 			configuration.GetSection(nameof(IdentityServerData)).Bind(IdentityServerData);
 			configuration.GetSection(nameof(IdentityData)).Bind(IdentityData);
-		}
+			configuration.GetSection(nameof(IdentityTableConfiguration)).Bind(IdentityTableConfiguration);
+        }
 	}
 }

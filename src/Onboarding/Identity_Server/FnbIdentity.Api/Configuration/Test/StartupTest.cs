@@ -1,13 +1,13 @@
-﻿using FnbIdentity.Infrastructure.DbContexts;
-using FnbIdentity.Infrastructure.Entities.Identity;
-using FnbIdentity.UI.API.Helpers;
-using FnbIdentity.UI.API.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FnbIdentity.Infrastructure.DbContexts;
+using FnbIdentity.Infrastructure.Entities.Identity;
+using FnbIdentity.UI.API.Helpers;
+using FnbIdentity.UI.API.Middlewares;
 
 namespace FnbIdentity.Api.Configuration.Test
 {

@@ -1,9 +1,10 @@
 ﻿using Duende.IdentityServer.EntityFramework.Storage;
-using FnbIdentity.Infrastructure.Configuration;
-using FnbIdentity.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using FnbIdentity.Infrastructure.Configuration;
+using FnbIdentity.Infrastructure.Interfaces;
+
 using System.Reflection;
 
 
@@ -24,15 +25,15 @@ namespace FnbIdentity.Infrastructure.Extentions
         /// <param name="connectionStrings"></param>
         /// <param name="databaseMigrations"></param>
 
-        public static void RegisterSqlServerDbContexts<TConfigurationDbContext, TPersistedGrantDbContext, 
-                                                     TLogDbContext, TIdentityDbContext, TDataProtectionDbContext>
-                                                     (this IServiceCollection services, ConnectionStringsConfiguration connectionStrings,
-                                                      DatabaseMigrationsConfiguration databaseMigrations)
-            
+        public static void RegisterSqlServerDbContexts<TIdentityDbContext, TConfigurationDbContext, TPersistedGrantDbContext, 
+                          TLogDbContext,  TDataProtectionDbContext>
+         (this IServiceCollection services, ConnectionStringsConfiguration connectionStrings,
+         DatabaseMigrationsConfiguration databaseMigrations)
+
+            where TIdentityDbContext : DbContext
             where TConfigurationDbContext : DbContext, IAdminConfigurationDbContext
             where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
-            where TLogDbContext : DbContext, IAdminLogDbContext
-            where TIdentityDbContext : DbContext          
+            where TLogDbContext : DbContext, IAdminLogDbContext       
             where TDataProtectionDbContext : DbContext, IDataProtectionKeyContext
             
         {
@@ -55,10 +56,6 @@ namespace FnbIdentity.Infrastructure.Extentions
            services.AddDbContext<TLogDbContext>(options => options.UseSqlServer(connectionStrings.AdminLogDbConnection,
                 optionsSql => optionsSql.MigrationsAssembly(databaseMigrations.AdminLogDbMigrationsAssembly ?? migrationsAssembly)));
             
-            // Config DB for identity
-            services.AddDbContext<TIdentityDbContext>(options =>
-            options.UseSqlServer(connectionStrings.IdentityDbConnection,
-            sql => sql.MigrationsAssembly(databaseMigrations.IdentityDbMigrationsAssembly ?? migrationsAssembly)));
 
             // DataProtectionKey DB from existing connection
             if (!string.IsNullOrEmpty(connectionStrings.DataProtectionDbConnection))

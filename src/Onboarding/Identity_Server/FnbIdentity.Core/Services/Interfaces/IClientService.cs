@@ -1,10 +1,7 @@
-﻿using FnbIdentity.Core.Dtos.Common;
-using FnbIdentity.Core.Dtos.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using FnbIdentity.Core.Dtos.Common;
+using FnbIdentity.Core.Dtos.Configuration;
 
 namespace FnbIdentity.Core.Services.Interfaces
 {
