@@ -1,0 +1,390 @@
+﻿# =============================================================================
+# AMC Configuration Template
+# Copy this template for each new AMC
+# =============================================================================
+
+# Replace "new_amc" with AMC identifier (e.g., axis_mf, hdfc_mf, icici_pru)
+axis_mf:
+  amc_name: "Axis Mutual Fund"  # e.g., "Axis Mutual Fund"
+  
+  # ========== PORTFOLIO CONFIGURATION ==========
+  portfolio:
+    # Preference order (crawler will try in this order)
+    frequency_preference: ["consolidated_monthly", "consolidated_halfyearly", "scheme_wise_monthly"]
+    
+    # OPTION 1: Consolidated Monthly Portfolio
+    consolidated_monthly:
+      steps:
+        # Step 1: Navigate or click to expand portfolio section
+        - action: "click_expand"
+          description: "Expand Monthly Portfolio section"
+          selectors:
+            - "text=/Monthly.*Portfolio/i"         # Regex pattern
+            - "button:has-text('Monthly')"         # Playwright selector
+            - ".monthly-portfolio-btn"             # CSS class
+          wait_after: 2000                         # Wait 2 seconds after click
+        
+        # Step 2: Select year dropdown
+        - action: "select_dropdown"
+          description: "Select latest year"
+          field: "year"
+          selectors:
+            - "select#year"                        # ID selector
+            - "select[name='year']"                # Name attribute
+            - ".year-dropdown"                     # CSS class
+          value: "latest"                          # Auto-selects current year
+          # OR specific year: value: "2024"
+        
+        # Step 3: Select month dropdown
+        - action: "select_dropdown"
+          description: "Select previous month"
+          field: "month"
+          selectors:
+            - "select#month"
+            - "select[name='month']"
+          value: "previous_month"                  # Auto-calculates
+          # OR specific month: value: "November"
+        
+        # Step 4: Select scheme (consolidated vs individual)
+        - action: "select_dropdown"
+          description: "Select Consolidated scheme"
+          field: "scheme"
+          selectors:
+            - "select#scheme"
+            - "select[name='scheme']"
+          value: "consolidated"
+          value_patterns:                          # Try these values in order
+            - "consolidated"
+            - "all schemes"
+            - "combined"
+        
+        # Step 5: Click download button
+        - action: "click_download"
+          description: "Click download button"
+          selectors:
+            - "button:has-text('Download')"
+            - ".download-btn"
+            - "a[download]"
+            - "button.btn-primary"
+          wait_for_download: true                  # Wait for file download
+          timeout_ms: 180000                       # 3 minutes timeout
+    
+    # OPTION 2: Half-yearly consolidated (fallback)
+    consolidated_halfyearly:
+      steps:
+        - action: "click_expand"
+          selectors:
+            - "text=/Half.*Yearly.*Portfolio/i"
+          wait_after: 2000
+        
+        - action: "select_dropdown"
+          field: "period"
+          value: "latest"                          # Latest half-year
+        
+        - action: "click_download"
+          selectors:
+            - "button:has-text('Download')"
+          wait_for_download: true
+    
+    # OPTION 3: Scheme-wise download (last resort)
+    scheme_wise_monthly:
+      loop_schemes: true                           # Indicates looping required
+      
+      steps:
+        # Get list of all schemes
+        - action: "get_scheme_list"
+          selectors:
+            - "select#scheme option"
+            - ".scheme-dropdown option"
+          exclude_patterns:                        # Skip these options
+            - "select"
+            - "choose"
+            - "consolidated"
+        
+        # Loop through each scheme
+        - action: "for_each_scheme"
+          steps:
+            - action: "select_scheme"              # Auto-handled by loop
+            
+            - action: "click_download"
+              selectors:
+                - "button:has-text('Download')"
+              wait_for_download: true
+  
+  # ========== AAUM CONFIGURATION ==========
+  aaum:
+    steps:
+      # Step 1: Navigate or expand AAUM section
+      - action: "click_expand"
+        description: "Expand Monthly Average AUM"
+        selectors:
+          - "text=/Monthly.*Average.*AUM/i"
+          - "text=/AAUM/i"
+          - "a:has-text('AUM')"
+        wait_after: 2000
+      
+      # Step 2: Select year
+      - action: "select_dropdown"
+        field: "year"
+        selectors:
+          - "select#year"
+          - "select[name='year']"
+        value: "latest"
+      
+      # Step 3: Select month
+      - action: "select_dropdown"
+        field: "month"
+        selectors:
+          - "select#month"
+        value: "previous_month"
+      
+      # Step 4: Download
+      - action: "click_download"
+        selectors:
+          - "button:has-text('Download')"
+          - ".aaum-download"
+        wait_for_download: true
+  
+  # ========== FACTSHEET CONFIGURATION ==========
+  factsheet:
+    steps:
+      # Step 1: Navigate to Products section
+      - action: "hover_menu"
+        description: "Hover over Products menu"
+        selectors:
+          - "text=Products"
+          - ".menu-products"
+          - "a[href*='product']"
+        wait_after: 1000
+      
+      # Step 2: Click Factsheet link
+      - action: "click"
+        description: "Click Factsheet link"
+        selectors:
+          - "text=Factsheet"
+          - "a[href*='factsheet']"
+      
+      # Step 3: Select year
+      - action: "select_dropdown"
+        field: "year"
+        value: "latest"
+      
+      # Step 4: Select month
+      - action: "select_dropdown"
+        field: "month"
+        value: "latest"                            # Current month
+      
+      # Step 5: Click download (exclude passive/ETF)
+      - action: "click_download"
+        description: "Download regular factsheet"
+        selectors:
+          - "button.factsheet-download"
+          - ".download-factsheet"
+        exclude_text:                              # Skip these
+          - "passive"
+          - "etf"
+          - "index"
+  
+  # ========== TER CONFIGURATION ==========
+  ter:
+    single_file: true                              # One file for all schemes
+    loop_scheme_types: ["open_ended", "close_ended", "matured"]
+    
+    steps:
+      # Loop through scheme types
+      - action: "for_each_type"
+        variable: "scheme_type"
+        steps:
+          # Select scheme type
+          - action: "select_dropdown"
+            field: "type"
+            selectors:
+              - "select#schemeType"
+            value: "{scheme_type}"                 # Variable substitution
+          
+          # Select "All" schemes
+          - action: "select_dropdown"
+            field: "scheme"
+            value: "all"
+          
+          # Select "All" plans
+          - action: "select_dropdown"
+            field: "plan"
+            value: "all"
+          
+          # Set date to last day of previous month
+          - action: "set_date"
+            field: "date"
+            selectors:
+              - "input#terDate"
+            value: "last_day_previous_month"
+            format: "dd-mm-yyyy"                   # Date format
+          
+          # Download
+          - action: "click_download"
+            selectors:
+              - "button:has-text('Download')"
+  
+  # ========== SID CONFIGURATION ==========
+  sid:
+    loop_all_schemes: true                         # Must loop through all schemes
+    
+    steps:
+      # Step 1: Get all scheme detail page links
+      - action: "get_scheme_links"
+        description: "Get all scheme detail page links"
+        container: ".scheme-list"                  # Container element
+        link_selector: "a.scheme-link"             # Link selector within container
+      
+      # Step 2: Loop through each link
+      - action: "for_each_link"
+        steps:
+          # Open link in new tab
+          - action: "open_new_tab"
+          
+          # Wait for PDF viewer or download button
+          - action: "wait_for_element"
+            description: "Wait for download button"
+            selectors:
+              - "button:has-text('Download')"
+              - ".pdf-download"
+              - "embed[type='application/pdf']"
+            timeout_ms: 10000
+          
+          # Click download
+          - action: "click_download"
+            selectors:
+              - "button[title='Download']"
+              - ".download-pdf-btn"
+              - "a[download]"
+          
+          # Close tab
+          - action: "close_tab"
+            wait_after: 2000
+
+
+# =============================================================================
+# COMMON ACTION TYPES REFERENCE
+# =============================================================================
+#
+# navigate:
+#   - Navigate to specific URL
+#   - Example: action: "navigate", url: "https://example.com/portfolio"
+#
+# click:
+#   - Click any element
+#   - Example: action: "click", selectors: ["button:has-text('Submit')"]
+#
+# click_expand:
+#   - Click to expand collapsible section (same as click, but semantically clear)
+#
+# hover_menu:
+#   - Hover over menu to reveal dropdown
+#   - Example: action: "hover_menu", selectors: ["text=Products"]
+#
+# select_dropdown:
+#   - Select dropdown value
+#   - Special values: "latest", "previous_month", "last_day_previous_month"
+#
+# set_date:
+#   - Fill date input field
+#   - Format: "dd-mm-yyyy", "mm/dd/yyyy", etc.
+#
+# click_download:
+#   - Click download button and capture file
+#   - Always set wait_for_download: true
+#
+# get_scheme_links:
+#   - Extract list of links from page
+#   - Returns list for looping
+#
+# get_scheme_list:
+#   - Get dropdown options
+#   - Returns list for looping
+#
+# for_each_scheme:
+#   - Loop through schemes from get_scheme_list
+#
+# for_each_type:
+#   - Loop through types (e.g., scheme types for TER)
+#
+# for_each_link:
+#   - Loop through links from get_scheme_links
+#
+# open_new_tab:
+#   - Open link in new tab (for SID downloads)
+#
+# close_tab:
+#   - Close current tab
+#
+# wait_for_element:
+#   - Wait for element to appear before continuing
+#
+# =============================================================================
+
+
+# =============================================================================
+# SELECTOR TIPS
+# =============================================================================
+#
+# 1. TEXT-BASED SELECTORS (Most Reliable):
+#    - Exact text: "text=Download"
+#    - Contains: "text=/Monthly.*Portfolio/i" (case-insensitive regex)
+#    - Has text: "button:has-text('Download')"
+#
+# 2. CSS SELECTORS:
+#    - ID: "#downloadButton"
+#    - Class: ".download-btn"
+#    - Attribute: "button[type='submit']"
+#    - Complex: ".portfolio-section button.download"
+#
+# 3. XPATH SELECTORS:
+#    - "//button[contains(text(), 'Download')]"
+#    - "//select[@name='month']/option[@value='11']"
+#
+# 4. PLAYWRIGHT-SPECIFIC:
+#    - "button >> text=Download" (chaining)
+#    - "button:below(:text('Portfolio'))" (spatial)
+#
+# 5. FINDING SELECTORS:
+#    - Right-click element → Inspect
+#    - Copy selector from DevTools
+#    - Test in browser console: document.querySelector(...)
+#
+# =============================================================================
+
+
+# =============================================================================
+# DEBUGGING TIPS
+# =============================================================================
+#
+# 1. Run in non-headless mode to watch automation:
+#    browser = p.chromium.launch(headless=False)
+#
+# 2. Add screenshots after each step:
+#    - action: "screenshot"
+#      path: "debug_step1.png"
+#
+# 3. Increase wait times if elements not appearing:
+#    wait_after: 5000  # 5 seconds
+#
+# 4. Check browser console for JavaScript errors
+#
+# 5. Try multiple selector strategies (text, CSS, XPath)
+#
+# =============================================================================
+
+
+# =============================================================================
+# EXAMPLE: Quick AMC Addition (Copy-Paste Template)
+# =============================================================================
+
+# 1. Copy entire template above
+# 2. Replace "new_amc" with AMC identifier (e.g., "sbi_mf")
+# 3. Update amc_name: "SBI Mutual Fund"
+# 4. Test selectors on AMC website
+# 5. Update selectors in YAML
+# 6. Test with: python run_phase3_enhanced.py test
+# 7. If successful, add to main config file
+
+# =============================================================================

@@ -83,15 +83,15 @@
     "Clients": [
       {
         "ClientId": "fbsuperadmin_administrator",
-        "ClientName": "fbsuperadmin_adminstrator",
+        "ClientName": "fbsuperadmin_administrator",
         "ClientUri": "https://localhost:44339",
         "AllowedGrantTypes": [
           "authorization_code"
         ],
-        "RequirePkce": false,
+        "RequirePkce": true,
         "ClientSecrets": [
           {
-            "Value": "fnbidentity_client_secret"
+            "Value": "fbsuperadmin_client_secret"
           }
         ],
         "RedirectUris": [

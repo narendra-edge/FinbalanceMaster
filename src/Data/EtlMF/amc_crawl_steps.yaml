@@ -1,0 +1,251 @@
+# ======================================================
+# AMC Crawl Step Definitions
+# Keys MUST match normalized AMC names
+# ======================================================
+
+# ==================== AXIS MF ====================
+axis_mf:
+  amc_name: "Axis Mutual Fund"
+
+  portfolio:
+    steps:
+      # ================= MONTHLY =================
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click_expand
+        description: "Expand Monthly Scheme Portfolios"
+        selectors:
+          - "text=/Monthly Scheme Portfolios/i"
+          - "text=/Monthly Portfolio/i"
+        wait_after: 4000
+        continue_on_failure: true
+
+      - action: click
+        description: "Download Monthly Portfolio"
+        selectors:
+          - "text=/Monthly Portfolio/i"
+        wait_after: 8000
+        continue_on_failure: true
+
+      # ================= FORTNIGHTLY =================
+      - action: click_expand
+        description: "Expand Fortnightly Scheme Portfolios"
+        selectors:
+          - "text=/Fortnightly Scheme Portfolios/i"
+          - "text=/Fortnightly Portfolio/i"
+        wait_after: 4000
+        continue_on_failure: true
+
+      - action: click
+        description: "Download Fortnightly Portfolio"
+        selectors:
+          - "text=/Fortnightly Portfolio/i"
+        wait_after: 8000
+        continue_on_failure: true
+
+      # ================= HALF-YEARLY =================
+      - action: click_expand
+        description: "Expand Half-Yearly Scheme Portfolios"
+        selectors:
+          - "text=/Half[- ]Yearly Scheme Portfolios/i"
+          - "text=/Half[- ]Yearly Portfolio/i"
+        wait_after: 4000
+        continue_on_failure: true
+
+      - action: click
+        description: "Download Half-Yearly Portfolio"
+        selectors:
+          - "text=/Half[- ]Yearly Portfolio/i"
+        wait_after: 8000
+        continue_on_failure: true
+
+  aaum:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click
+        selectors:
+          - "text=/Average Assets/i"
+          - "text=/AAUM/i"
+        wait_after: 3000
+
+      - action: select_dropdown
+        field: year
+        value: latest
+        selectors:
+          - "select[name*='year']"
+          - "select[id*='year']"
+
+      - action: select_dropdown
+        field: month
+        value: previous_month
+        selectors:
+          - "select[name*='month']"
+          - "select[id*='month']"
+
+      - action: click_download
+        selectors:
+          - "a[href$='.xlsx']"
+          - "a[href$='.xls']"
+        timeout_ms: 180000
+
+  factsheet:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click_download
+        selectors:
+          - "a[href*='factsheet']"
+        exclude_text:
+          - passive
+          - etf
+
+  ter:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click_download
+        selectors:
+          - "a[href*='TER']"
+
+  sid:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: get_scheme_links
+        container: "body"
+        link_selector: "a[href$='.pdf']"
+
+      - action: for_each_link
+        steps:
+          - action: click_download
+            wait_for_download: true
+# ==================== HDFC MF ====================
+hdfc:
+  amc_name: "HDFC Mutual Fund"
+
+  portfolio:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click
+        selectors:
+          - "text=/Portfolio Disclosure/i"
+        wait_after: 3000
+
+      - action: click_download
+        selectors:
+          - "a[href$='.xlsx']"
+          - "a[href$='.xls']"
+
+  aaum:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click_download
+        selectors:
+          - "a[href*='AAUM']"
+
+  factsheet:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click_download
+        selectors:
+          - "a[href*='factsheet']"
+
+  ter:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: click_download
+        selectors:
+          - "a[href*='TER']"
+
+  sid:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+        wait_after: 4000
+
+      - action: get_scheme_links
+        container: "body"
+        link_selector: "a[href$='.pdf']"
+
+      - action: for_each_link
+        steps:
+          - action: click_download
+            wait_for_download: true
+
+
+# ==================== GENERIC FALLBACK ====================
+generic:
+  portfolio:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+
+      - action: click_download
+        selectors:
+          - "a[href$='.xlsx']"
+          - "a[href$='.xls']"
+
+  aaum:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+
+      - action: click_download
+        selectors:
+          - "a[href*='AAUM']"
+          - "a[href*='AUM']"
+
+  factsheet:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+
+      - action: click_download
+        selectors:
+          - "a[href*='factsheet']"
+
+  ter:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+
+      - action: click_download
+        selectors:
+          - "a[href*='TER']"
+
+  sid:
+    steps:
+      - action: navigate
+        url: "{base_url}"
+
+      - action: get_scheme_links
+        container: "body"
+        link_selector: "a[href$='.pdf']"
+
+      - action: for_each_link
+        steps:
+          - action: click_download
+            wait_for_download: true

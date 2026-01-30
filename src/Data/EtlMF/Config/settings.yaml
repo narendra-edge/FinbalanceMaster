@@ -1,0 +1,350 @@
+﻿# =========================================
+# Mutual Fund ETL Configuration (v4.0 — Standardized Storage)
+# =========================================
+
+python_version: "3.11"
+
+postgres:
+  host: "localhost"
+  port: 5432
+  database: "mutualfunds"
+  user: "mf_user"
+  password: "mf_pass"
+  connect_timeout: 10
+  url: "postgresql+psycopg2://mf_user:mf_pass@localhost:5432/mutualfunds"
+
+# =========================================
+# Unified Path Strategy (Option 3)
+# =========================================
+paths:
+  data_root: "C:/Data_MF"
+  downloads_dir: "C:/Data_MF/downloads"
+  nav_output_dir: "C:/Data_MF/downloads/nav"
+  archive_dir: "C:/Data_MF/archive"
+  dividend_output_dir: "C:/Data_MF/downloads/dividend"
+  logs_dir: "C:/Data_MF/etl_logs"
+  reports_dir: "C:/Data_MF/reports"
+
+  # Phase 3 specific directories
+  statutory_dir: "C:/Data_MF/downloads/statutory"
+  portfolio_dir: "C:/Data_MF/downloads/portfolio"
+  aaum_dir: "C:/Data_MF/downloads/aaum"
+  ter_dir: "C:/Data_MF/downloads/ter"
+  factsheet_dir: "C:/Data_MF/downloads/factsheet"
+  sebi_sids_dir: "C:/Data_MF/downloads/sebi_sids"
+
+
+  # Dividend sub-directories (Gmail downloads)
+  cams_dividend_dir: "C:/Data_MF/downloads/dividend/cams"
+  kfin_dividend_dir: "C:/Data_MF/downloads/dividend/kfin"
+
+  # Optional categorization (fetchers save here)
+  cams_subdir: "C:/Data_MF/downloads/cams"
+  kfin_subdir: "C:/Data_MF/downloads/kfin"
+  amfi_subdir: "C:/Data_MF/downloads/amfi"
+
+# =========================================
+# Gmail configuration for CAMS ZIP download
+# =========================================
+gmail:
+  host: "imap.gmail.com"
+  user: "capitalblendsecurities@gmail.com"
+  port: 993
+  app_password: "zkqv tkgi vtmr cili"
+
+  # CAMS Scheme Data
+  cams_sender: "CAMS Mailback Server"
+  cams_subject_keyword: "WBR39. Scheme details"
+  download_dir: "C:/Data_MF/downloads/cams"
+  zip_password: "Capital1@345"
+  max_email_age_days: 3
+
+# =========================================
+# KFintech Scheme Data Download (Playwright)
+# =========================================
+kfin:
+  login_url: "https://dss.kfintech.com/dssweb/"
+  username: "capitalblend"
+  password: "Capital1@567"
+  nav_steps:
+    - name: "Other Services"
+      selector: "text='Other Services'"
+    - name: "Information"
+      selector: "text='Information'"
+    - name: "Scheme Information"
+      selector: "text='Scheme Information'"
+  download_dir: "C:/Data_MF/downloads/kfin"
+  download_wait_seconds: 15
+
+# =========================================
+# AMFI Scheme Data (CSV)
+# =========================================
+amfi:
+  download_url: "https://portal.amfiindia.com/DownloadSchemeData_Po.aspx?mf=0"
+  amfi_filename: "amfi_scheme.csv"
+  download_dir: "C:/Data_MF/downloads/amfi"
+
+  # =========================================
+# NAV DATA CONFIGURATION
+# =========================================
+nav:
+  # Historical NAV directories (ZIP files with DBF inside)
+  cams_historical_dir: "C:/Data_MF/Cams_Data_HistoricalNav"
+  kfin_historical_dir: "C:/Data_MF/Kfin_Data_HistoricalNav"
+  
+  # ZIP passwords
+  cams_zip_password: "Capital1@345"  # Same as scheme data
+  kfin_zip_password: "Capital1@345"  # Set if KFIN uses password
+  
+  # AMFI Daily NAV (TXT format)
+  amfi_daily_url: "https://portal.amfiindia.com/spages/NAVAll.txt"
+  
+  # Output directory for extracted CSVs
+  output_dir: "C:/Data_MF/downloads/nav"
+  
+  # Processing options
+  process_historical: true
+  process_daily: true
+  
+  # Matching preferences
+  match_preference: "isin"  # isin | scheme_id | both
+
+# =========================================
+# COMPLETE DIVIDEND CONFIGURATION
+# Two data sources: Historical (DBF) + Daily (Gmail)
+# =========================================
+dividend:
+  # Processing flags
+  process_dividends: true               # Master switch
+  process_historical: true              # Process DBF files
+  process_daily: true                   # Process Gmail emails
+  
+  # ----------------------------------------------------------------
+  # HISTORICAL DIVIDEND (DBF files in password-protected ZIPs)
+  # Same directories as NAV historical data
+  # ----------------------------------------------------------------
+  cams_historical_dir: "C:/Data_MF/Cams_Data_HistoricalDividend"
+  kfin_historical_dir: "C:/Data_MF/Kfin_Data_HistoricalDividend"
+  
+  # Use same passwords as NAV
+  # (passwords inherited from nav config)
+  
+  # ----------------------------------------------------------------
+  # DAILY DIVIDEND (Gmail emails with Excel downloads)
+  # ----------------------------------------------------------------
+  
+  # CAMS Daily Dividend Email Configuration
+  cams_sender: "CAMS Mailback Server"
+  cams_subject_keyword: "WBR25. IDCW/Bonus Declared"
+  cams_download_dir: "C:/Data_MF/downloads/dividend/cams"
+  
+  # KFIN Daily Dividend Email Configuration
+  kfin_sender: "distributorcare@kfintech.com"
+  kfin_subject_keyword: "Dividend & Bonus Information"
+  kfin_download_dir: "C:/Data_MF/downloads/dividend/kfin"
+  
+  # Email search settings
+  max_email_age_days: 7                 # Search emails from last N days
+  
+  # Output directory
+  output_dir: "C:/Data_MF/downloads/dividend"
+
+
+  # =========================================
+# PHASE 3: STATUTORY DISCLOSURE CONFIGURATION
+# =========================================
+phase3:
+  # Master switches
+  enable_amfi_scraping: true
+  enable_amc_crawling: true
+  enable_sebi_scraping: true
+  enable_pdf_parsing: true
+  
+  # SEBI compliance settings
+  sebi_format_validation: true
+  require_sebi_compliance: false  # Set to true in production
+  
+  # Crawl frequency (days)
+  amfi_refresh_days: 30
+  amc_crawl_frequency_days: 7
+  sebi_refresh_days: 90
+  
+  # Document retention
+  keep_raw_pdfs: true
+  archive_old_documents_days: 365
+  max_file_size_mb: 50
+  
+  # PDF parsing settings
+  pdf_parsing:
+    use_ocr_fallback: false
+    confidence_threshold: 0.7
+    max_retries: 3
+    timeout_seconds: 120
+  
+  # AMC website crawling
+  amc_crawl:
+    headless_browser: true
+    timeout_seconds: 60
+    max_concurrent_crawls: 3
+    user_agent: "Mozilla/5.0 (MF-ETL-Bot/1.0; +https://example.com/bot)"
+    download_timeout: 180
+  
+  # SEBI scraping
+  sebi:
+    base_url: "https://www.sebi.gov.in"
+    mf_page_url: "https://www.sebi.gov.in/sebiweb/other/OtherAction.do?doMutualFund=yes&mftype=2"
+    timeout_seconds: 60
+  
+  # Portfolio parsing thresholds
+  portfolio:
+    min_holdings_threshold: 5
+    max_portfolio_pct_deviation: 2.0  # Allow 2% deviation from 100%
+    require_isin_for_equity: true
+    flag_illiquid_securities: true
+  
+  # TER parsing thresholds
+  ter:
+    max_ter_threshold: 5.0  # Flag if TER > 5%
+    require_both_plans: true
+    validate_direct_less_than_regular: true
+  
+  # AUM parsing
+  aum:
+    default_scale: "CRORES"
+    require_geographic_breakup: false
+    require_investor_category_breakup: false
+  
+  # Fund manager extraction
+  fund_manager:
+    min_name_length: 4
+    require_qualification: false
+    require_experience: false
+    auto_link_to_schemes: true
+    check_regulatory_violations: true
+
+
+# =========================================
+# ETL Behavior and Retry Policy
+# =========================================
+etl:
+ keep_raw_rows: true
+ db_batch_size: 5000
+ max_retries: 5
+ retry_wait_seconds: 6
+ keep_last_files: 1       # Retention policy
+ auto_archive: true       # Archive old files
+  
+  # NAV-specific settings
+nav_batch_size: 10000    # Larger batch for NAV (millions of records)
+validate_isin: true      # Validate ISIN before insertion
+deduplicate_nav: true    # Remove duplicates by (isin, date)
+  
+  # Dividend-specific settings
+dividend_batch_size: 5000
+deduplicate_dividend: true  # Remove duplicates by (isin, ex_date)
+    
+# Portfolio-specific settings
+portfolio_batch_size: 2000
+deduplicate_portfolio: true
+
+ # =========================================
+# LOGGING CONFIGURATION
+# =========================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+  max_log_size_mb: 100
+  backup_count: 10
+  log_to_console: true
+  log_to_file: true
+
+# =========================================
+# MONITORING & ALERTS
+# =========================================
+monitoring:
+  enable_alerts: false
+  alert_email: "admin@example.com"
+  
+  # Alert thresholds
+  max_parse_failures_pct: 20
+  min_sebi_compliance_pct: 80
+  max_unmapped_schemes_pct: 10
+
+# =========================================
+# SCHEDULER CONFIGURATION (for cron)
+# =========================================
+scheduler:
+  # Phase 1 & 2 (existing)
+  phase1_full_refresh: "0 2 1 * *"        # 1st of month, 2 AM
+  phase2_nav_daily: "0 6 * * *"           # Daily 6 AM
+  phase2_dividend_daily: "0 7 * * *"      # Daily 7 AM
+  
+  # Phase 3 (new)
+  phase3_incremental: "0 2 * * 1"         # Every Monday 2 AM
+  phase3_full_refresh: "0 3 1 * *"        # 1st of month, 3 AM
+  amfi_link_refresh: "0 1 1 * *"          # 1st of month, 1 AM
+  amc_crawl_weekly: "0 4 * * 0"           # Every Sunday 4 AM
+  sebi_scrape_quarterly: "0 0 1 */3 *"    # 1st of every 3rd month
+  master_refresh_daily: "0 5 * * *"       # Daily 5 AM
+
+# =========================================
+# DEVELOPMENT/TESTING FLAGS
+# =========================================
+development:
+  test_mode: false
+  limit_amcs: null  # Set to number for testing
+  limit_schemes: null
+  skip_sebi: false
+  skip_crawl: false
+  use_mock_data: false
+
+# =========================================
+# PERFORMANCE TUNING
+# =========================================
+performance:
+  max_workers: 4
+  chunk_size: 1000
+  connection_pool_size: 10
+  query_timeout_seconds: 300
+  prefetch_count: 100
+
+# =========================================
+# DATA QUALITY RULES
+# =========================================
+quality_rules:
+  portfolio:
+    - rule: "percentage_sum_100"
+      threshold: 2.0
+      severity: "WARNING"
+    - rule: "min_holdings"
+      threshold: 5
+      severity: "ERROR"
+    - rule: "isin_coverage_equity"
+      threshold: 0.9
+      severity: "WARNING"
+  
+  ter:
+    - rule: "ter_in_range"
+      min: 0.0
+      max: 5.0
+      severity: "ERROR"
+    - rule: "direct_less_than_regular"
+      severity: "WARNING"
+  
+  aum:
+    - rule: "positive_aum"
+      severity: "ERROR"
+    - rule: "reasonable_growth"
+      max_mom_growth: 50.0
+      severity: "WARNING"
+
+# =========================================
+# CONTACT & METADATA
+# =========================================
+metadata:
+  project_name: "Mutual Fund Data Warehouse"
+  version: "5.0.0"
+  phase: "Phase 3 - Statutory Disclosures"
+  maintainer: "ETL Team"
+  last_updated: "2025-01-15"
+  documentation_url: "https://docs.example.com/mf-etl"

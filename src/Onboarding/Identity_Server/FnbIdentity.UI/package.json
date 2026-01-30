@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "fnbsuperadmin.administrator",
+  "name": "fbsuperadmin_administrator",
   "description": "The administator for identity  server and Asp.Net Core Identity",
   "author": "Narendra Kumar",
   "license": "MIT",

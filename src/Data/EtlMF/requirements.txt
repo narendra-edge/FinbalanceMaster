@@ -1,0 +1,13 @@
+pandas>=2.0
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+openpyxl>=3.0
+python-dateutil
+pyzipper
+pyyaml
+tenacity
+playwright>=1.40.0
+lxml
+requests
+dbfread
+loguru

@@ -1,5 +1,5 @@
 {
-  "name": "@FinbalanceMaster/fnbidentity.api.client",
+  "name": "fnbidentity.api.client",
   "version": "1.0.0",
   "description": "FnIdentity Api Client",
   "main": "dist/cjs/index.js",

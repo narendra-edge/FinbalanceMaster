@@ -1,23 +1,45 @@
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using MutualFund.Application.Interfaces.Services;
+using MutualFund.Application.Mapper;
+using MutualFund.Application.Services;
+using MutualFund.Core.Interfaces;
+using MutualFund.Infrastructure.Persistence;
+using MutualFund.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// add configuration & db
+builder.Services.AddDbContext<MutualFundDbContext>(
+    options => options.UseNpgsql(builder.Configuration.GetConnectionString("MutualFundDb"))
+);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+// CORS
+builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mutual Fund API", Version = "v1" });
+});
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = "https://localhost:44333";
-        options.Audience = "MutualFund.Api";
+// Controllers
+builder.Services.AddControllers();
 
-        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-    });
+// Register repositories & services
+builder.Services.AddScoped<IAmfiSchemeRepository, AmfiSchemeRepository>();
+builder.Services.AddScoped<IRtaSchemeDataRepository, RtaSchemeDataRepository>();
+builder.Services.AddScoped<ISchemeMappingRepository, SchemeMappingRepository>();
+builder.Services.AddScoped<ISchemeMasterFinalRepository, SchemeMasterFinalRepository>();
+
+builder.Services.AddScoped<IAmfiService, AmfiService>();
+builder.Services.AddScoped<IRtaSchemeDataService, RtaSchemeDataService>();
+builder.Services.AddScoped<ISchemeMappingService, SchemeMappingService>();
+builder.Services.AddScoped<ISchemeMasterFinalService, SchemeMasterFinalService>();
 
 var app = builder.Build();
 
@@ -29,9 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+app.UseCors("AllowAll");
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

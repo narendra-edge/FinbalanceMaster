@@ -1,0 +1,99 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>10ee79cc-6f70-44ca-b69c-a8805115e9e8</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>EtlMF</Name>
+    <RootNamespace>EtlMF</RootNamespace>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <SuppressPackageInstallationPrompt>True</SuppressPackageInstallationPrompt>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="database\" />
+    <Folder Include="Config\" />
+    <Folder Include="Etl\" />
+    <Folder Include="scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="amc_config_template.yaml" />
+    <Content Include="amc_crawl_steps.yaml" />
+    <Content Include="Config\settings.yaml" />
+    <Content Include="database\amc_master_generator.sql" />
+    <Content Include="database\full_schema.sql" />
+    <Content Include="database\full_schema_details.sql" />
+    <Content Include="database\full_schema_nav.sql" />
+    <Content Include="database\seed_data.sql" />
+    <Content Include="requirements.txt" />
+    <Content Include="scripts\init_db.ps1" />
+    <Content Include="Structured_portfolio.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.13</Version>
+      <Description>env (Python 3.13 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Etl\amc_master_builder.py" />
+    <Compile Include="Etl\amc_website_crawler.py" />
+    <Compile Include="Etl\amfi_fetcher.py" />
+    <Compile Include="Etl\amfi_link_scraper.py" />
+    <Compile Include="Etl\archive_utils.py" />
+    <Compile Include="Etl\cleaner.py" />
+    <Compile Include="Etl\cleanup_and_test_amc.py" />
+    <Compile Include="Etl\complete_dividend_fetcher.py" />
+    <Compile Include="Etl\complete_dividend_loader.py" />
+    <Compile Include="Etl\deploy_amc_complete.py" />
+    <Compile Include="Etl\excel_to_postgres.py" />
+    <Compile Include="Etl\generate_amc_master.py" />
+    <Compile Include="Etl\gmail_dividend_fetcher.py" />
+    <Compile Include="Etl\gmail_fetcher.py" />
+    <Compile Include="Etl\kfin_fetcher.py" />
+    <Compile Include="Etl\loader.py" />
+    <Compile Include="Etl\nav_fetcher.py" />
+    <Compile Include="Etl\nav_loader.py" />
+    <Compile Include="Etl\real_world_amc_parser.py" />
+    <Compile Include="Etl\sebi_sid_scraper.py" />
+    <Compile Include="Etl\statutory_pdf_parser_enhanced.py" />
+    <Compile Include="Etl\universal_amc_crawler.py" />
+    <Compile Include="run_etl.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Etl\unzip_utils.py" />
+    <Compile Include="Etl\utils.py" />
+    <Compile Include="Etl\__init__.py" />
+    <Compile Include="run_nav_etl.py" />
+    <Compile Include="run_phase3_enhanced.py" />
+    <Compile Include="run_phase3_etl.py" />
+    <Compile Include="__init__.py" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

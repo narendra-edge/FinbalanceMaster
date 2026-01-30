@@ -1,0 +1,153 @@
+change full_scheme.sql  for cams_raw , kfin_raw and amfi_raw 
+
+cams colum	data type		kfin colum	data type		amfi colum	data type
+amc_code	TEXT		        Product Code	TEXT		          AMC	        TEXT
+amc	        TEXT		        AMC Code	TEXT		          Code	       Numeric
+sch_code	TEXT			AMC Name	TEXT			  Scheme Name	TEXT
+sch_name	TEXT		        Scheme Code	TEXT		          Scheme Type	TEXT
+sch_type	TEXT		    Scheme Description	TEXT		       Scheme Category	TEXT
+div_reinv	TEXT		       Plan Code	TEXT		Scheme NAV Name	TEXT
+sip_allow	BOOLEAN		    Plan Description	TEXT		Scheme Minimum Amount	NUMERIC
+lien	        BOOLEAN		    Option Code  	TEXT		Launch Date	DATE
+swt_mn_amt	NUMERIC		    Option Description	TEXT		 Closure Date	DATE
+swt_mx_amt	NUMERIC		           Nature	TEXT		ISIN Div Payout/ ISIN GrowthISIN Div Reinvestment	TEXT
+swt_mn_unt	NUMERIC		Fund Type	TEXT			
+swt_mx_unt	NUMERIC		NFO Start Date	DATE			
+swi_multi	NUMERIC		NFO End Date	DATE			
+adp_mn_amt	NUMERIC		Open Date	DATE			
+adp_mx_amt	NUMERIC		Close Date	DATE			
+adp_mn_unt	NUMERIC		ISIN Number	TEXT			
+adp_mx_unt	NUMERIC		ISIN Type	NUMERIC			
+newp_mnval	NUMERIC		Purchased Allowed	BOOLEAN			
+newp_mxval	NUMERIC		IPO Amount	NUMERIC			
+p_mn_incr	NUMERIC		IPO Min Amount	NUMERIC			
+red_mn_amt	NUMERIC		IPO Multiple Amount	NUMERIC			
+red_mx_amt	NUMERIC		New Purchase Amount	NUMERIC			
+red_mn_unt	NUMERIC		New Purchase Multiple Amount	NUMERIC			
+red_mx_unt	NUMERIC		NRI New Min Amount	NUMERIC			
+red_incr	NUMERIC		NRI New Multiple Amount	NUMERIC			
+mn_swp_amt	NUMERIC		Add Purchase Amount	NUMERIC			
+mx_swp_amt	NUMERIC		Add Purchase Multiple Amount	NUMERIC			
+close_end	BOOLEAN		Redemption Allowed	BOOLEAN			
+elss_sch	BOOLEAN		Redemption Min Amount	NUMERIC			
+mature_dt	DATE		Redemption Multiple Amount	NUMERIC			
+face_value	NUMERIC		Redemption Min Units	NUMERIC			
+asset_class	TEXT		Redemption Multiple Units	NUMERIC			
+sebi_class	TEXT		Switch In Allowed	BOLLEAN			
+settle_per	NUMERIC		Switch Out Allowed	BOOLEAN			
+sip_dates	SMALLINT		Switch Out Min Amount	NUMERIC			
+swp_dates	SMALLINT		Switch In Min Amount	NUMERIC			
+stp_dates	SMALLINT		Lateral In Allowed	BOOLEAN			
+sys_freqs	TEXT		Lateral Out Allowed	BOOLEAN			
+swp_allow	BOOLEAN		STP In Allowed	BOOLEAN			
+stp_allow	BOOLEAN		STP Out Allowed	BOOLEAN			
+plan_type	TEXT 		STP Frequency	TEXT			
+sf_code  	TEXT		STP Min Amount	NUMERIC			
+sf_name 	TEXT		STP Dates	SMALLINT			
+start_date	DATE		SIP Allowed	BOLLEAN			
+swt_allow	BOOLEAN		SIP Min Amount	NUMERIC			
+adp_mn_inc	NUMERIC		SIP Dates	SMALLINT			
+pur_allow	BOOLEAN		SIP Frequency	TEXT			
+red_allow	BOOLEAN		SWP In Allowed	BOLLEAN			
+sip_mn_ins	NUMERIC		SWP Out Allowed	BOLLEAN			
+sip_mn_amt	NUMERIC		SWP Frequency	TEXT			
+sip_multi	NUMERIC		SWP Min Amount	NUMERIC			
+sip_mx_amt	NUMERIC		SWP Dates	DATES			
+swp_mn_ins	NUMERIC		Load Details	TEXT			
+swp_multi	NUMERIC		Purchase Cutoff Time	TIME			
+parent_scheme_code TEXT	Redemption Cutoff Time	TIME			
+isin_no	         TEXT		Switch Cutoff Time	TIME			
+display_data_entry TEXT	       Maturity Date	DATE			
+nfo_end_dt	DATE		Re-Open Date	DATE			
+open_date	DATE		NFO Face Value	NUMERIC			
+allotment_date	DATE		Demat Allowed	BOLLEAN			
+			       Risk Type	TEXT			
+			       Allotment Date	DATE			
+			     Last Update Date	DATE	
+
+
+Step 1 process combine cams_raw and kfin_ in one combiled tabele as rta_scheme_data
+Field Name		cams field match		kfinfield match			data type
+Product Code		amc_code+sf_code+sch_code		Product Code			TEXT
+AMC_CODE		amc_code		AMC Code			TEXT
+Amc Name		amc		AMC Name			TEXT
+Rta Schmem Code		sf_code		AMC Code+Scheme Code			TEXT
+Rta Scheme Name		sf_name		Scheme Description			TEXT
+Rta Sub Scheme Code		sch_code		SchemeCode+Plan Code+option code			TEXT
+Rta Sub Scheme Name		sch_name		Scheme Doscription+Plan Discription+option Discription			TEXT
+Plan Code		plan_type		Plan Code			TEXT
+Plan name		plan_type+name		Plan Description			TEXT
+Nature		close_end		Nature			TEXT
+option code		div_reinv		Option Code			TEXT
+Option name		div_reinv+name		Option Description			TEXT
+Isin No		isin_no		ISIN Number			TEXT
+Fund Type		asset_class+sebi_class		Fund Type			TEXT
+Isin type				ISIN Type			TEXT
+NFO Start Date		start_date		NFO Start Date			DATE
+NFO End Date		nfo_end_dt		NFO End Date			DATE
+Open Date		open_date		Open Date			DATE
+Maturitry Date		mature_dt		Maturity Date			DATE
+Allotment Date		allotment_date		Allotment Date			DATE
+Face Value		face_value		NFO Face Value			NUMERIC
+Demat Allow				Demat Allowed			BOOLEAN
+Load Details				Load Details			TEXT
+New Purchase Flag		pur_allow		Purchased Allowed			BOOLEAN
+New Puchase Minimum amount		newp_mnval		New Purchase Amount			NUMERIC
+New purchase Maximum amount		newp_mxval					NUMERIC
+New Purchase Multiple amount		p_mn_incr		New Purchase Multiple Amount			NEWMERIC
+Purchase Cutt off Time				Purchase Cutoff Time			TIME
+Additional Purchase amount		adp_mn_amt		Add Purchase Amount			NEWMERIC
+Additional Purchase Maximum amount		adp_mx_amt					NEWMERIC
+Additional Purchase Minimum Unit		adp_mn_unt					NEWMERIC
+Additional Purchase Maximum Unit		adp_mx_unt					NEWMERIC
+Additional Purchase Multiple Amount		adp_mn_inc		Add Purchase Multiple Amount			NEWMERIC
+Redemption Flag		red_allow		Redemption Allowed			BOOLEAN
+Redemption minimum amount		red_mn_amt		Redemption Min Amount			NUMERIC
+Redemption Maximum Amount		red_mx_amt					NUMERIC
+Redemtion Minimum Unit		red_mn_unt		Redemption Min Units			NUMERIC
+Redemption Maximum Unit		red_mx_unt					NUMERIC
+Redemption Multiple Amount		red_incr		Redemption Multiple Amount			NUMERIC
+Redemption Multiple Unit		red_incr		Redemption Multiple Units			NUMERIC
+Redemption Cutoff Time				Redemption Cutoff Time			TIME
+SIP Flag		sip_allow		SIP Allowed			BOOLEAN
+SIP Minimum Amount		sip_mn_amt		SIP Min Amount			NUMERIC
+Sip Maximum Amount		sip_mx_amt					NUMERIC
+Sip  Frequency 		sys_freqs		SIP Frequency			TEXT
+Sip Minimum Instalment		sip_mn_ins		SIP Min Amount			NUMERIC
+Sip Multiple amount		sip_multi					NUMERIC
+Sip Dates		sip_dates		SIP Dates			NUMERIC
+Stp In Allowed		stp_allow		STP In Allowed			BOOLEAN
+Stp Out Allowed				STP Out Allowed			BOOLEAN
+Stp Frequency		sys_freqs		STP Frequency			TEXT
+Stp Dates		stp_dates		STP Dates			NUMERIC
+Stp Minimum Amount							NUMERIC
+Swp In Allowed		swp_allow		SWP In Allowed			BOOLEAN
+Swp Out Allowed		swp_allow		SWP Out Allowed			BOOLEAN
+Swp Frequency				SWP Frequency			TEXT
+Swp Dates		swp_dates		SWP Dates			NUMERIC
+Swp Minimum Amount				SWP Min Amount			NUMERIC
+Swp Multiple Amount		swp_multi					NUMERIC
+Swp Minimum Installments		swp_mn_ins					NUMERIC
+Switch In Allowed		swt_allow		Switch In Allowed			BOOLEAN
+Switch Out Allow		swt_allow		Switch Out Allowed			BOOLEAN
+Switch In Minimum Amount		mn_swp_amt		Switch Out Min Amount			NUMERIC
+Switch Out Minimum Amount		mn_swp_amt		Switch In Min Amount			NUMERIC
+Switch Maximum Amount		mx_swp_amt					NUMERIC
+Switch Cutoff Time				Switch Cutoff Time			TIME
+Lateral In Allowed				Lateral In Allowed			BOOLEAN
+Lateral Out Allowed				Lateral Out Allowed			BOOLEAN
+Parent Scheme Code		parent_scheme_code					TEXT
+Display Data Entry		display_data_entry					TEXT
+Risk Type				Risk Type			TEXT
+Last Update Date				Last Update Date			DATE
+Close Date				Close Date			DATE
+IPO Amount				IPO Amount			NUMERIC
+IPO Min Amount				IPO Min Amount			NUMERIC
+IPO Multiple Amount				IPO Multiple Amount			NUMERIC
+Lien Flag		lien					Boolean
+
+Step 2 Clean Amfi_raw where colum scheme cateogary divided into two part Cateogary and subcateogary and ISIN into two part as discussed earlier as amfi_scheme
+
+psql -U postgres -d mutualfunds -f "psql -U postgres -d mutualfunds -f "source\repos\FinbalanceMaster\src\Data\EtlMF\database\full_schema.sql"
+
+

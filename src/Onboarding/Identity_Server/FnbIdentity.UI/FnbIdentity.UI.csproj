@@ -7,13 +7,11 @@
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="wwwroot\dist\**" />
-    <Content Remove="wwwroot\dist\**" />
-    <EmbeddedResource Remove="wwwroot\dist\**" />
-    <None Remove="wwwroot\dist\**" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<Folder Include="wwwroot\dist\css\themes\morph\" />
+		<Folder Include="wwwroot\dist\css\themes\quartz\" />
+		<Folder Include="wwwroot\dist\css\themes\vapor\" />
+	</ItemGroup>
   
 
   <ItemGroup>
@@ -104,7 +102,8 @@
         <None Include="Areas\AdminUI\Views\Shared\Error.cshtml" />
         <None Include="Areas\AdminUI\Views\Shared\_Layout.cshtml" />
         <None Include="Areas\AdminUI\Views\_ViewImports.cshtml" />
-        <None Include="Areas\AdminUI\Views\_ViewStart.cshtml" />    
+        <None Include="Areas\AdminUI\Views\_ViewStart.cshtml" />
+	    <None Include="wwwroot\dist\js\CryptoUtils.js" />
     </ItemGroup>
   
   <ItemGroup>
@@ -133,5 +132,11 @@
         <Generator>ResXFileCodeGenerator</Generator>
       </EmbeddedResource>
   </ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Areas\AdminUI\Views\Identity\User\Section\Label.cshtml" />
+		<Content Remove="wwwroot\dist\css\themes\vapor\bootstrap.min.css" />
+	</ItemGroup>
+
 
 </Project>
